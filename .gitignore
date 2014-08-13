@@ -26,3 +26,4 @@
 *.tar.*
 *.gcno
 *.gcda
+/include/riemannpp/platform.hpp.in

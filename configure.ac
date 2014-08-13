@@ -6,7 +6,7 @@ AM_INIT_AUTOMAKE([foreign subdir-objects dist-xz no-dist-gzip])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([no])])
 
 AC_CONFIG_SRCDIR([src/client.cpp])
-AC_CONFIG_HEADERS([include/riemannpp/client.hpp])
+AC_CONFIG_HEADERS([include/riemannpp/platform.hpp])
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_PROG_CC
@@ -29,10 +29,13 @@ AC_TYPE_SSIZE_T
 # Check for pkg-config-enabled libraries
 PKG_PROG_PKG_CONFIG
 
+HAVE_CHECK=yes
+PKG_CHECK_MODULES(CHECK, check,,[HAVE_CHECK="no"])
 HAVE_RIEMANN_CLIENT=yes
 PKG_CHECK_MODULES(RIEMANN_CLIENT, riemann-client >= 0.26,,[HAVE_RIEMANN_CLIENT="no"])
 
 AM_CONDITIONAL([HAVE_RIEMANN_CLIENT], [test x$HAVE_RIEMANN_CLIENT != xno])
+AM_CONDITIONAL([HAVE_CHECK], [test x$HAVE_CHECK != xno])
 
 AC_DEFINE_UNQUOTED([HAVE_RIEMANN_CLIENT],
   `if test x$HAVE_RIEMANN_CLIENT != xno; then echo 1; else echo 0; fi`,
