@@ -13,9 +13,9 @@ VERSION				= @VERSION@${SNAPSHOT_VERSION}
 # -- Libraries --
 lib_LTLIBRARIES		= lib/libriemannpp.la
 
-lib_libriemannpp_la_CFLAGS	= ${AM_CFLAGS}
+lib_libriemannpp_la_CFLAGS	= ${AM_CFLAGS} @RIEMANN_CLIENT_CFLAGS@
 lib_libriemannpp_la_LDFLAGS	= 
-lib_libriemannpp_la_LIBADD	= -lprotobuf-c
+lib_libriemannpp_la_LIBADD	= @RIEMANN_CLIENT_LIBS@
 lib_libriemannpp_ladir		= ${includedir}
 lib_libriemannpp_la_HEADERS	=       \
 	include/riemannpp/client.hpp    \

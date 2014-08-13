@@ -1,7 +1,7 @@
 #ifndef RIEMANNPP_MESSAGE_HPP
 #define RIEMANNPP_MESSAGE_HPP
 
-#include <riemann-client.h>
+#include <riemann/riemann-client.h>
 
 #include <memory>
 #include <string>

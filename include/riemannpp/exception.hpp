@@ -1,7 +1,7 @@
 #ifndef RIEMANNPP_EXCEPTION_HPP
 #define RIEMANNPP_EXCEPTION_HPP
 
-#include <riemann-client.h>
+#include <riemann/riemann-client.h>
 
 #include <errno.h>
 #include <stdexcept>
