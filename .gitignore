@@ -26,4 +26,7 @@
 *.tar.*
 *.gcno
 *.gcda
+/include/riemannpp/platform.hpp
 /include/riemannpp/platform.hpp.in
+/include/riemannpp/stamp-h1
+riemannpp.pc
