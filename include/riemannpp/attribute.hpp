@@ -1,3 +1,6 @@
+#ifndef RIEMANNPP_ATTRIBUTE_HPP
+#define RIEMANNPP_ATTRIBUTE_HPP
+
 #include <riemann-client.h>
 
 #include <memory>
@@ -25,3 +28,5 @@ namespace riemannpp {
 	};
 
 }
+
+#endif // RIEMANNPP_ATTRIBUTE_HPP

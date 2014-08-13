@@ -1,3 +1,5 @@
+#ifndef RIEMANNPP_EXCEPTION_HPP
+#define RIEMANNPP_EXCEPTION_HPP
 
 #include <riemann-client.h>
 
@@ -35,3 +37,5 @@ namespace riemannpp {
 	};
 
 }
+
+#endif // RIEMANNPP_EXCEPTION_HPP

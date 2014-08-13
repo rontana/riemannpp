@@ -1,3 +1,6 @@
+#ifndef RIEMANNPP_EVENT_HPP
+#define RIEMANNPP_EVENT_HPP
+
 #include <riemann-client.h>
 
 #include <memory>
@@ -46,3 +49,5 @@ namespace riemannpp {
 	};
 
 }
+
+#endif // RIEMANNPP_EVENT_HPP

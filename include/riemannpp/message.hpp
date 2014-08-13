@@ -1,3 +1,6 @@
+#ifndef RIEMANNPP_MESSAGE_HPP
+#define RIEMANNPP_MESSAGE_HPP
+
 #include <riemann-client.h>
 
 #include <memory>
@@ -25,3 +28,5 @@ namespace riemannpp {
 	};
 
 }
+
+#endif // RIEMANNPP_MESSAGE_HPP

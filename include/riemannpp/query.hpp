@@ -1,3 +1,6 @@
+#ifndef RIEMANNPP_QUERY_HPP
+#define RIEMANNPP_QUERY_HPP
+
 #include <riemann-client.h>
 
 #include <memory>
@@ -19,3 +22,5 @@ namespace riemannpp {
 	};
 
 }
+
+#endif // RIEMANNPP_QUERY_HPP
