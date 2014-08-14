@@ -12,21 +12,21 @@ lib_LTLIBRARIES = \
 	src/riemannpp/libriemannpp.la
 
 src_riemannpp_libriemannpp_la_SOURCES = \
-	lib/riemannpp/client.hpp    \
-	lib/riemannpp/client.cpp    \
-	lib/riemannpp/event.hpp     \
-	lib/riemannpp/event.cpp     \
-	lib/riemannpp/message.hpp   \
-	lib/riemannpp/message.cpp   \
-	lib/riemannpp/attribute.hpp \
-	lib/riemannpp/attribute.cpp \
-	lib/riemannpp/query.hpp     \
-	lib/riemannpp/query.cpp     \
-	lib/riemannpp/exception.hpp
-src_riemannpp_libriemannpp_la_CPPFLAGS = $(RIEMANNPP_CPPFLAGS)
-src_riemannpp_libriemannpp_la_CXXFLAGS = $(RIEMANNPP_CXXFLAGS)
-src_riemannpp_libriemannpp_la_LDFLAGS = $(RIEMANNPP_LDFLAGS)
-src_riemannpp_libriemannpp_la_LIBADD = $(RIEMANNPP_LIBS)
+	src/riemannpp/client.hpp    \
+	src/riemannpp/client.cpp    \
+	src/riemannpp/event.hpp     \
+	src/riemannpp/event.cpp     \
+	src/riemannpp/message.hpp   \
+	src/riemannpp/message.cpp   \
+	src/riemannpp/attribute.hpp \
+	src/riemannpp/attribute.cpp \
+	src/riemannpp/query.hpp     \
+	src/riemannpp/query.cpp     \
+	src/riemannpp/exception.hpp
+src_riemannpp_libriemannpp_la_CPPFLAGS = $(RIEMANN_CLIENT_CPPFLAGS)
+src_riemannpp_libriemannpp_la_CXXFLAGS = $(RIEMANN_CLIENT_CXXFLAGS)
+src_riemannpp_libriemannpp_la_LDFLAGS = $(RIEMANN_CLIENT_LDFLAGS)
+src_riemannpp_libriemannpp_la_LIBADD = $(RIEMANN_CLIENT_LIBS)
 
 # Build rules for pkgconfig
 pkgconfigdir = $(libdir)/pkgconfig
@@ -51,9 +51,9 @@ test_riemannpp_test_SOURCES = \
 	test/client_test.cpp \
 	test/event_test.cpp \
 	test/message_test.cpp
-test_riemannpp_test_CPPFLAGS = -I$(top_srcdir)/src $(RIEMANNPP_CPPFLAGS)
-test_riemannpp_test_CXXFLAGS = $(RIEMANNPP_CXXFLAGS)
-test_riemannpp_test_LDFLAGS = $(RIEMANNPP_LDFLAGS)
+test_riemannpp_test_CPPFLAGS = -I$(top_srcdir)/src $(RIEMANN_CLIENT_CPPFLAGS)
+test_riemannpp_test_CXXFLAGS = $(RIEMANN_CLIENT_CXXFLAGS)
+test_riemannpp_test_LDFLAGS = $(RIEMANN_CLIENT_LDFLAGS)
 test_riemannpp_test_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la
 
 TESTS += $(UNIT_TESTS)

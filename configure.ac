@@ -31,20 +31,11 @@ AC_PROG_CXX
 
 AC_LANG([C++], [C])
 
-# Check for pkg-config-enabled libraries
+# Check for pkg-config program
 PKG_PROG_PKG_CONFIG
 
+# Check for riemann-client
 PKG_CHECK_MODULES(RIEMANN_CLIENT, riemann-client >= 0.26, [have_riemann_c=yes], [have_riemann_c=no])
-
-# Define variables for building
-RIEMANNPP_CPPFLAGS="$(RIEMANN_CLIENT_CFLAGS) -DGTEST_HAS_PTHREAD=0 -I\$(top_srcdir)/lib/gmock"
-RIEMANNPP_CXXFLAGS=""
-RIEMANNPP_LDFLAGS="-L\$(top_builddir)/lib/gmock"
-RIEMANNPP_LIBS="$(RIEMANN_CLIENT_LIBS)"
-AC_SUBST([RIEMANNPP_CPPFLAGS])
-AC_SUBST([RIEMANNPP_CXXFLAGS])
-AC_SUBST([RIEMANNPP_LDFLAGS])
-AC_SUBST([RIEMANNPP_LIBS])
 
 # Checks for existence of coverage tools and define variables for reporting coverage
 AC_CHECK_COVERAGE
