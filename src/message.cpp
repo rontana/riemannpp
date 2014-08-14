@@ -29,7 +29,7 @@ message::set_events(const event_list& events) {
 		riemann_event_t* evp = (riemann_event_t*)event;
 		int result = riemann_message_set_events_n(d_message.get(), 1, &evp);
 		if (-1 == result) {
-			throw new riemannpp_internal_exception();
+			throw new internal_exception();
 		}
 	}
 }
@@ -38,6 +38,6 @@ void
 message::set_query(const query& q) {
 	int result = riemann_message_set_query(d_message.get(), (riemann_query_t*)q);
 	if (-1 == result) {
-		throw new riemannpp_internal_exception();
+		throw new internal_exception();
 	}
 }

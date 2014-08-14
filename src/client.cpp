@@ -26,7 +26,7 @@ void
 client::connect(client_type type, const std::string& host, int port) {
 	int result = riemann_client_connect(d_client, riemann_client_type_t(type), host.c_str(), port);
 	if (-1 == result) {
-		throw new riemannpp_internal_exception();
+		throw new internal_exception();
 	}
 }
 
@@ -34,7 +34,7 @@ void
 client::disconnect() {
 	int result = riemann_client_disconnect(d_client);
 	if (-1 == result) {
-		throw new riemannpp_internal_exception();
+		throw new internal_exception();
 	}
 }
 
@@ -42,7 +42,7 @@ void
 client::send_message(const message& m) {
 	int result = riemann_client_send_message(d_client, (riemann_message_t*)m);
 	if (-1 == result) {
-		throw new riemannpp_internal_exception();
+		throw new internal_exception();
 	}
 }
 
@@ -50,7 +50,7 @@ void
 client::send_message_oneshot(const message& m) {
 	int result = riemann_client_send_message_oneshot(d_client, (riemann_message_t*)m);
 	if (-1 == result) {
-		throw new riemannpp_internal_exception();
+		throw new internal_exception();
 	}
 }
 

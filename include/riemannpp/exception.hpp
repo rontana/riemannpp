@@ -17,21 +17,21 @@ namespace riemannpp {
 			: std::runtime_error(message) {}
 	};
 
-	class riemannpp_internal_exception : public exception {
+	class internal_exception : public exception {
 		int         d_error;
 		std::string d_reason;
 	public:
-		riemannpp_internal_exception()
+		internal_exception()
 			: exception(strerror(errno))
 			, d_error(errno)
 			, d_reason(strerror(errno)) {}
 
-		riemannpp_internal_exception(const std::string& reason)
+		internal_exception(const std::string& reason)
 			: exception(strerror(errno))
 			, d_error(errno)
 			, d_reason(reason) {}
 
-		~riemannpp_internal_exception() throw() {}
+		~internal_exception() throw() {}
 
 		int error() const { return d_error; }
 
