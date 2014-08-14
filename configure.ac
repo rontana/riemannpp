@@ -23,6 +23,13 @@ m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 # Initialise libtool
 LT_INIT
 
+# Debian resets this to no, but this break both Spot and the libtool
+# test suite itself.  Instead of requiring developer to install a
+# non-patched version of Libtool on any Debian they use, we just
+# cancel the effect of Debian's patch here.
+link_all_deplibs=yes
+link_all_deplibs_CXX=yes
+
 # Check for a C compiler
 AC_PROG_CC
 

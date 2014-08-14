@@ -6,7 +6,7 @@ AM_CPPFLAGS = -I${top_srcdir}/src
 
 # Build rules for riemannpp library
 pkginclude_HEADERS = \
-  src/riemannpp/riemannpp.hpp
+	src/riemannpp/riemannpp.hpp
 
 lib_LTLIBRARIES = \
 	src/riemannpp/libriemannpp.la
@@ -53,8 +53,8 @@ test_riemannpp_test_SOURCES = \
 	test/message_test.cpp
 test_riemannpp_test_CPPFLAGS = -I$(top_srcdir)/src $(RIEMANN_CLIENT_CPPFLAGS)
 test_riemannpp_test_CXXFLAGS = $(RIEMANN_CLIENT_CXXFLAGS)
-test_riemannpp_test_LDFLAGS = $(RIEMANN_CLIENT_LDFLAGS)
-test_riemannpp_test_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la
+test_riemannpp_test_LDFLAGS = $(RIEMANN_LDFLAGS)
+test_riemannpp_test_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la $(RIEMANN_CLIENT_LIBS)
 
 TESTS += $(UNIT_TESTS)
 
