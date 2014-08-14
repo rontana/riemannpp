@@ -1,9 +1,6 @@
 # For using custom m4 macros
 ACLOCAL_AMFLAGS = -I m4
 
-# Nonstandard package files for distribution
-EXTRA_DIST = autogen.sh
-
 # Compiler build flags
 AM_CPPFLAGS = -I${top_srcdir}/src
 
@@ -75,11 +72,11 @@ check-unit-tests:
 check-unit-tests-with-valgrind:
 	$(MAKE) $(AM_MAKEFLAGS) check TESTS=$(UNIT_TESTS) TESTS_ENVIRONMENT=$(TESTS_ENVIRONMENT_WITH_VALGRIND)
 
-include Makefile.am.coverage
+# Nonstandard package files for distribution
+EXTRA_DIST = \
+	README.md \
+	LICENSE \
+	autogen.sh \
+	riemannpp.pc
 
-# Extra files to distribute
-EXTRA_DIST = README.md LICENSE          \
-             riemannpp.pc               \
-             ${check_libriemannpp_srcs} \
-             m4/.placeholder            \
-             ${src_riemannpp_EXTRA_DIST}
+include Makefile.am.coverage

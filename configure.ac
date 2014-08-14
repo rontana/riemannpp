@@ -21,7 +21,7 @@ AM_INIT_AUTOMAKE([-Werror foreign subdir-objects])
 m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
 
 # Initialise libtool
-LT_INIT([shared])
+LT_INIT
 
 # Check for a C compiler
 AC_PROG_CC
@@ -34,13 +34,13 @@ AC_LANG([C++], [C])
 # Check for pkg-config-enabled libraries
 PKG_PROG_PKG_CONFIG
 
-PKG_CHECK_MODULES(riemann-client, riemann-client >= 0.26, [have_riemann_c=yes], [have_riemann_c=no])
+PKG_CHECK_MODULES(RIEMANN_CLIENT, riemann-client >= 0.26, [have_riemann_c=yes], [have_riemann_c=no])
 
 # Define variables for building
-RIEMANNPP_CPPFLAGS="-DGTEST_HAS_PTHREAD=0 -I\$(top_srcdir)/lib/gmock"
+RIEMANNPP_CPPFLAGS="$(RIEMANN_CLIENT_CFLAGS) -DGTEST_HAS_PTHREAD=0 -I\$(top_srcdir)/lib/gmock"
 RIEMANNPP_CXXFLAGS=""
 RIEMANNPP_LDFLAGS="-L\$(top_builddir)/lib/gmock"
-RIEMANNPP_LIBS=""
+RIEMANNPP_LIBS="$(RIEMANN_CLIENT_LIBS)"
 AC_SUBST([RIEMANNPP_CPPFLAGS])
 AC_SUBST([RIEMANNPP_CXXFLAGS])
 AC_SUBST([RIEMANNPP_LDFLAGS])
@@ -85,5 +85,5 @@ Configure Information:
     LDFLAGS         :   $LDFLAGS
     LIBS            :   $LIBS
 
-  Coverage Reports      : $ENABLE_COVERAGE
+  Coverage Reports  : $ENABLE_COVERAGE
 ])
