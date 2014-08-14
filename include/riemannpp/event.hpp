@@ -31,7 +31,7 @@ namespace riemannpp {
 	typedef std::vector<field>                   field_list;
 
 	class event {
-		std::unique_ptr<riemann_event_t> d_attribute;
+		std::unique_ptr<riemann_event_t> d_event;
 
 	public:
 		event();
@@ -46,7 +46,7 @@ namespace riemannpp {
 
 		void attribute_add(const attribute& a);
 
-		operator riemann_event_t*() const { return d_attribute.get(); }
+		operator riemann_event_t*() const { return d_event.get(); }
 	};
 
 }

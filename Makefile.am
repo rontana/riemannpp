@@ -23,7 +23,7 @@ lib_libriemannpp_la_HEADERS	=       \
 	include/riemannpp/message.hpp   \
 	include/riemannpp/attribute.hpp	\
 	include/riemannpp/query.hpp     \
-	include/riemannpp/riemannpp.h
+	include/riemannpp/riemannpp.hpp
 lib_libriemannpp_la_SOURCES =       \
 	src/client.cpp                  \
 	src/event.cpp                   \

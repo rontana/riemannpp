@@ -3,23 +3,28 @@
 
 using namespace riemannpp;
 
-client::client() {
-	d_client.reset(riemann_client_new());
+client::client()
+	: d_type(client_type::none)
+{
+	d_client = riemann_client_new();
 }
 
-client::client(client_type type, const std::string& host, int port) {
-	d_client.reset(riemann_client_create(riemann_client_type_t(type), host.c_str(), port));
+client::client(client_type type, const std::string& host, int port)
+	: d_type(client_type::none)
+{
+	d_client = riemann_client_create(riemann_client_type_t(type), host.c_str(), port);
 }
 
 client::~client() {
 	if (d_client) {
-		riemann_client_free(d_client.release());
+		riemann_client_free(d_client);
+		d_client = nullptr;
 	}
 }
 
 void 
 client::connect(client_type type, const std::string& host, int port) {
-	int result = riemann_client_connect(d_client.get(), riemann_client_type_t(type), host.c_str(), port);
+	int result = riemann_client_connect(d_client, riemann_client_type_t(type), host.c_str(), port);
 	if (-1 == result) {
 		throw new riemannpp_internal_exception();
 	}
@@ -27,7 +32,7 @@ client::connect(client_type type, const std::string& host, int port) {
 
 void 
 client::disconnect() {
-	int result = riemann_client_disconnect(d_client.get());
+	int result = riemann_client_disconnect(d_client);
 	if (-1 == result) {
 		throw new riemannpp_internal_exception();
 	}
@@ -35,7 +40,7 @@ client::disconnect() {
 
 void 
 client::send_message(const message& m) {
-	int result = riemann_client_send_message(d_client.get(), m);
+	int result = riemann_client_send_message(d_client, (riemann_message_t*)m);
 	if (-1 == result) {
 		throw new riemannpp_internal_exception();
 	}
@@ -43,7 +48,7 @@ client::send_message(const message& m) {
 
 void 
 client::send_message_oneshot(const message& m) {
-	int result = riemann_client_send_message_oneshot(d_client.get(), m);
+	int result = riemann_client_send_message_oneshot(d_client, (riemann_message_t*)m);
 	if (-1 == result) {
 		throw new riemannpp_internal_exception();
 	}

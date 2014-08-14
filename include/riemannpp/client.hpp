@@ -11,13 +11,14 @@
 namespace riemannpp {
 
 	enum class client_type {
-		tcp = RIEMANN_CLIENT_TCP,
-		udp = RIEMANN_CLIENT_UDP
+		none = RIEMANN_CLIENT_NONE,
+		tcp  = RIEMANN_CLIENT_TCP,
+		udp  = RIEMANN_CLIENT_UDP
 	};
 
 	class client {
-		std::unique_ptr<riemann_client_t> d_client;
-		client_type                       d_type;
+		riemann_client_t* d_client;
+		client_type       d_type;
 
 	public:
 		client();
@@ -36,7 +37,7 @@ namespace riemannpp {
 
 //		std::unique_ptr<message> recv();
 
-		operator riemann_client_t*() const { return d_client.get(); }
+		operator riemann_client_t*() const { return d_client; }
 	};
 
 }

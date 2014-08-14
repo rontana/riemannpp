@@ -33,3 +33,4 @@ riemannpp.pc
 .autotools
 .cproject
 .project
+/lib
