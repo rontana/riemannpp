@@ -53,7 +53,6 @@ test_riemannpp_test_SOURCES = \
 	test/message_test.cpp
 test_riemannpp_test_CPPFLAGS = -I$(top_srcdir)/src $(RIEMANN_CLIENT_CPPFLAGS)
 test_riemannpp_test_CXXFLAGS = $(RIEMANN_CLIENT_CXXFLAGS)
-test_riemannpp_test_LDFLAGS = $(RIEMANN_LDFLAGS)
 test_riemannpp_test_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la $(RIEMANN_CLIENT_LIBS)
 
 TESTS += $(UNIT_TESTS)
