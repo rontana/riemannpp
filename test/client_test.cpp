@@ -7,8 +7,8 @@ namespace riemann = riemannpp;
 TEST_CASE("clients can be created and connect", "[client]") {
 	SECTION("new and delete") {
 		{
-			riemann::client client();
-			REQUIRE((riemann_client_t*)client != nullptr)
+			riemann::client client;
+			REQUIRE((riemann_client_t*)client != nullptr);
 		}
 		REQUIRE(errno == EINVAL);
 	}
