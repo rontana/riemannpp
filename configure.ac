@@ -1,48 +1,89 @@
-# -*- Autoconf -*-
-
+# Initialise Autoconf with package name, version number and bug report address
 AC_INIT([riemannpp], [0.1.0], [christopher.john.gilbert@gmail.com])
-AM_INIT_AUTOMAKE([foreign subdir-objects dist-xz no-dist-gzip])
 
-m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([no])])
-
-AC_CONFIG_SRCDIR([src/client.cpp])
-AC_CONFIG_HEADERS([include/riemannpp/platform.hpp])
+# Use custom m4 macros
 AC_CONFIG_MACRO_DIR([m4])
 
-AC_PROG_CC
-AC_PROG_CC_C_O
-AC_PROG_CXX
+# Auxiliary scripts such as install-sh and depcomp should be in following directory.
+AC_CONFIG_AUX_DIR([build-aux])
 
+# Initialize Automake.
+# There are useful options.
+#   -Werror: Report warnings as errors.
+#   foreign: ignores some GNU Coding Standards.
+#   subdirs-objects: Create objects in sub-direcotories
+AM_INIT_AUTOMAKE([-Werror foreign subdir-objects])
+
+# AM_PROG_AR is a new feature since automake 1.12,
+# make AM_PROG_AR work before automake 1.12
+# Libtool(LT_INIT) should use AM_PROG_AR internally,
+# newer libtool may not need to enable AM_PROG_AR explicitly.
+m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
+
+# Initialise libtool
 LT_INIT([shared])
 
-AC_CHECK_HEADERS([arpa/inet.h netdb.h stdlib.h sys/socket.h])
-AC_CHECK_FUNCS([memset socket strcasecmp strchr strdup strerror])
-AC_FUNC_MALLOC
-AC_FUNC_REALLOC
+# Check for a C compiler
+AC_PROG_CC
 
-AC_TYPE_SIZE_T
-AC_TYPE_UINT32_T
-AC_TYPE_UINT8_T
-AC_TYPE_INT64_T
-AC_TYPE_SSIZE_T
+# Check for a C++ compiler
+AC_PROG_CXX
 
-# Check for c++11 support
-AX_CXX_COMPILE_STDCXX_11
+AC_LANG([C++], [C])
 
 # Check for pkg-config-enabled libraries
 PKG_PROG_PKG_CONFIG
 
-HAVE_CHECK=yes
-PKG_CHECK_MODULES(CHECK, check,,[HAVE_CHECK="no"])
-HAVE_RIEMANN_CLIENT=yes
-PKG_CHECK_MODULES([RIEMANN_CLIENT], riemann-client >= 0.26,,[HAVE_RIEMANN_CLIENT="no"])
+PKG_CHECK_MODULES(riemann-client, riemann-client >= 0.26, [have_riemann_c=yes], [have_riemann_c=no])
 
-AM_CONDITIONAL([HAVE_RIEMANN_CLIENT], [test x$HAVE_RIEMANN_CLIENT != xno])
-AM_CONDITIONAL([HAVE_CHECK], [test x$HAVE_CHECK != xno])
+# Define variables for building
+RIEMANNPP_CPPFLAGS="-DGTEST_HAS_PTHREAD=0 -I\$(top_srcdir)/lib/gmock"
+RIEMANNPP_CXXFLAGS=""
+RIEMANNPP_LDFLAGS="-L\$(top_builddir)/lib/gmock"
+RIEMANNPP_LIBS=""
+AC_SUBST([RIEMANNPP_CPPFLAGS])
+AC_SUBST([RIEMANNPP_CXXFLAGS])
+AC_SUBST([RIEMANNPP_LDFLAGS])
+AC_SUBST([RIEMANNPP_LIBS])
 
-AC_DEFINE_UNQUOTED([HAVE_RIEMANN_CLIENT],
-  `if test x$HAVE_RIEMANN_CLIENT != xno; then echo 1; else echo 0; fi`,
-  [Define when riemann-client is available])
+# Checks for existence of coverage tools and define variables for reporting coverage
+AC_CHECK_COVERAGE
 
+# Check for C++11 support
+#   ext: use extended mode (e.g. -std=gnu++11)
+#   noext: use non-extended mode (e.g. -std=c++11)
+AX_CXX_COMPILE_STDCXX_11([noext])
+
+# Check for the existance of a file in the source directory.
+AC_CONFIG_SRCDIR([src])
+
+# Output files.
+# AC_CONFIG_HEADERS(HEADERS...)
+# Create Header for all HEADER.in Use only one such header unless you know what you are doing.
+# Declare config.hpp as output header.
+AC_CONFIG_HEADERS([config.hpp])
+
+# Declare output files.
 AC_CONFIG_FILES([Makefile riemannpp.pc])
+
+# Actually output all declared files.
 AC_OUTPUT
+
+AC_MSG_RESULT([
+Configure Information:
+  C Compiler        : $CC
+    DEFS            :   $DEFS
+    CPPFLAGS        :   $CPPFLAGS
+    CFLAGS          :   $CFLAGS
+
+  C++ Compiler      : $CXX
+    DEFS            :   $DEFS
+    CPPFLAGS        :   $CPPFLAGS
+    CXXFLAGS        :   $CXXFLAGS
+
+  Linker            : $LD
+    LDFLAGS         :   $LDFLAGS
+    LIBS            :   $LIBS
+
+  Coverage Reports      : $ENABLE_COVERAGE
+])
