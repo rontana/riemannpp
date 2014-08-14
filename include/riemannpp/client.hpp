@@ -1,6 +1,8 @@
 #ifndef RIEMANNPP_CLIENT_HPP
 #define RIEMANNPP_CLIENT_HPP
 
+#include "message.hpp"
+
 #include <riemann/riemann-client.h>
 
 #include <memory>
@@ -15,7 +17,7 @@ namespace riemannpp {
 
 	class client {
 		std::unique_ptr<riemann_client_t> d_client;
-		riemann_client_type               d_type;
+		client_type                       d_type;
 
 	public:
 		client();
@@ -32,7 +34,7 @@ namespace riemannpp {
 
 		void send_message_oneshot(const message& m);
 
-		std::unique_ptr<message> recv();
+//		std::unique_ptr<message> recv();
 
 		operator riemann_client_t*() const { return d_client.get(); }
 	};

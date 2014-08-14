@@ -26,6 +26,9 @@ AC_TYPE_UINT8_T
 AC_TYPE_INT64_T
 AC_TYPE_SSIZE_T
 
+# Check for c++11 support
+AX_CXX_COMPILE_STDCXX_11
+
 # Check for pkg-config-enabled libraries
 PKG_PROG_PKG_CONFIG
 

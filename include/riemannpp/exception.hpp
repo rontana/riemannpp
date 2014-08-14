@@ -4,6 +4,8 @@
 #include <riemann/riemann-client.h>
 
 #include <errno.h>
+#include <string.h>
+
 #include <stdexcept>
 #include <string>
 
@@ -15,21 +17,21 @@ namespace riemannpp {
 			: std::runtime_error(message) {}
 	};
 
-	class riemann_internal_exception : public exception {
+	class riemannpp_internal_exception : public exception {
 		int         d_error;
 		std::string d_reason;
 	public:
-		riemann_internal_exception()
+		riemannpp_internal_exception()
 			: exception(strerror(errno))
 			, d_error(errno)
-			, d_reason(strerror(errno))
+			, d_reason(strerror(errno)) {}
 
-		riemann_internal_exception(const std::string& reason)
+		riemannpp_internal_exception(const std::string& reason)
 			: exception(strerror(errno))
 			, d_error(errno)
-			, d_reason(reason)
+			, d_reason(reason) {}
 
-		~riemann_internal_exception() throw() {}
+		~riemannpp_internal_exception() throw() {}
 
 		int error() const { return d_error; }
 

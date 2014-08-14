@@ -1,4 +1,5 @@
 #include "client.hpp"
+#include "exception.hpp"
 
 using namespace riemannpp;
 
@@ -7,7 +8,7 @@ client::client() {
 }
 
 client::client(client_type type, const std::string& host, int port) {
-	d_client.reset(riemann_client_create(type, host.c_str(), port));
+	d_client.reset(riemann_client_create(riemann_client_type_t(type), host.c_str(), port));
 }
 
 client::~client() {
@@ -18,7 +19,7 @@ client::~client() {
 
 void 
 client::connect(client_type type, const std::string& host, int port) {
-	int result = riemann_client_connect(d_client.get(), type, host.c_str(), port);
+	int result = riemann_client_connect(d_client.get(), riemann_client_type_t(type), host.c_str(), port);
 	if (-1 == result) {
 		throw new riemannpp_internal_exception();
 	}
@@ -48,7 +49,7 @@ client::send_message_oneshot(const message& m) {
 	}
 }
 
-std::unique_ptr<message> 
-client::recv() {
-	return std::unique_ptr(riemann_client_recv_message(d_client.get()));
-}
+//std::unique_ptr<message>
+//client::recv() {
+//	return std::unique_ptr<message>(new message()/*riemann_client_recv_message(d_client.get())*/);
+//}

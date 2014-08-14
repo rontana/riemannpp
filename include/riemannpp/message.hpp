@@ -1,12 +1,18 @@
 #ifndef RIEMANNPP_MESSAGE_HPP
 #define RIEMANNPP_MESSAGE_HPP
 
+#include "event.hpp"
+#include "query.hpp"
+
 #include <riemann/riemann-client.h>
 
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace riemannpp {
+
+	typedef std::vector<event> event_list;
 
 	class message {
 		std::unique_ptr<riemann_message_t> d_message;

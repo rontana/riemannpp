@@ -1,6 +1,8 @@
 #ifndef RIEMANNPP_EVENT_HPP
 #define RIEMANNPP_EVENT_HPP
 
+#include "attribute.hpp"
+
 #include <riemann/riemann-client.h>
 
 #include <memory>
@@ -12,7 +14,6 @@ namespace riemannpp {
 
 	enum class event_field {
 		none        = RIEMANN_EVENT_FIELD_NONE,
-		empty       = RIEMANN_EVENT_FIELD_EMPTY,
 		time        = RIEMANN_EVENT_FIELD_TIME,
 		state       = RIEMANN_EVENT_FIELD_STATE,
 		service     = RIEMANN_EVENT_FIELD_SERVICE,
@@ -45,7 +46,7 @@ namespace riemannpp {
 
 		void attribute_add(const attribute& a);
 
-		operator riemann_event_t*() const { return d_event.get(); }
+		operator riemann_event_t*() const { return d_attribute.get(); }
 	};
 
 }
