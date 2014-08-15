@@ -23,14 +23,21 @@ src_riemannpp_libriemannpp_la_SOURCES = \
 	src/riemannpp/query.hpp     \
 	src/riemannpp/query.cpp     \
 	src/riemannpp/exception.hpp
-src_riemannpp_libriemannpp_la_CPPFLAGS = $(RIEMANN_CLIENT_CPPFLAGS)
-src_riemannpp_libriemannpp_la_CXXFLAGS = $(RIEMANN_CLIENT_CXXFLAGS)
-src_riemannpp_libriemannpp_la_LDFLAGS = $(RIEMANN_CLIENT_LDFLAGS)
+src_riemannpp_libriemannpp_la_CFLAGS = $(AM_CFLAGS) $(RIEMANN_CLIENT_CFLAGS)
 src_riemannpp_libriemannpp_la_LIBADD = $(RIEMANN_CLIENT_LIBS)
 
 # Build rules for pkgconfig
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = riemannpp.pc
+
+# Build rules for client program
+bin_PROGRAMS = \
+	src/client/riemannpp
+
+src_client_riemannpp_SOURCES = \
+	src/client/riemannpp.cpp
+src_client_riemannpp_CFLAGS = $(AM_CFLAGS) $(RIEMANN_CLIENT_CFLAGS)
+src_client_riemannpp_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la $(RIEMANN_CLIENT_LIBS) $(LDADD)
 
 # Build rules for tests.
 # TESTS_ENVIRONMENT: Set environment variables for the test run
@@ -51,9 +58,8 @@ test_riemannpp_test_SOURCES = \
 	test/client_test.cpp \
 	test/event_test.cpp \
 	test/message_test.cpp
-test_riemannpp_test_CPPFLAGS = -I$(top_srcdir)/src $(RIEMANN_CLIENT_CPPFLAGS)
-test_riemannpp_test_CXXFLAGS = $(RIEMANN_CLIENT_CXXFLAGS)
-test_riemannpp_test_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la $(RIEMANN_CLIENT_LIBS)
+test_riemannpp_test_CFLAGS = -I$(top_srcdir)/src $(RIEMANN_CLIENT_CFLAGS)
+test_riemannpp_test_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la $(RIEMANN_CLIENT_LIBS) $(LDADD)
 
 TESTS += $(UNIT_TESTS)
 
