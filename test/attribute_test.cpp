@@ -10,7 +10,6 @@ TEST_CASE("attributes can be created and set", "[attribute]") {
 			riemann::attribute attrib;
 			REQUIRE((riemann_attribute_t*)attrib != nullptr);
 		}
-		REQUIRE(errno == EINVAL);
 	}
 	SECTION("attribute set") {
 		riemann::attribute attrib;

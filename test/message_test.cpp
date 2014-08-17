@@ -10,7 +10,6 @@ TEST_CASE("messages can be created and set", "[message]") {
 			riemann::message msg;
 			REQUIRE((riemann_message_t*)msg != nullptr);
 		}
-		REQUIRE(errno == EINVAL);
 	}
 	SECTION("message set events") {
 

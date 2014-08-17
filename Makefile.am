@@ -35,9 +35,12 @@ bin_PROGRAMS = \
 	src/client/riemannpp
 
 src_client_riemannpp_SOURCES = \
+	src/client/options.hpp \
+	src/client/options.cpp \
 	src/client/riemannpp.cpp
-src_client_riemannpp_CFLAGS = $(AM_CFLAGS) $(RIEMANN_CLIENT_CFLAGS)
-src_client_riemannpp_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la $(RIEMANN_CLIENT_LIBS) $(LDADD)
+src_client_riemannpp_CPPFLAGS = -I${top_srcdir}/src ${RIEMANN_CLIENT_CFLAGS} $(BOOST_CPPFLAGS)
+src_client_riemannpp_LDFLAGS = $(BOOST_LDFLAGS)
+src_client_riemannpp_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la $(RIEMANN_CLIENT_LIBS) $(BOOST_PROGRAM_OPTIONS_LIB) $(LDADD)
 
 # Build rules for tests.
 # TESTS_ENVIRONMENT: Set environment variables for the test run

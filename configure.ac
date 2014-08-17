@@ -45,6 +45,10 @@ AC_CHECK_COVERAGE
 #   noext: use non-extended mode (e.g. -std=c++11)
 AX_CXX_COMPILE_STDCXX_11([noext])
 
+# Check for Boost
+AX_BOOST_BASE([1.48],, [AC_MSG_ERROR([The riemannpp client needs Boost, but it was not found in your system])])
+AX_BOOST_PROGRAM_OPTIONS
+
 # Check for the existance of a file in the source directory.
 AC_CONFIG_SRCDIR([src])
 
@@ -74,7 +78,12 @@ Configure Information:
     LDFLAGS         :   $LDFLAGS
     LIBS            :   $LIBS
   Coverage Reports  : $ENABLE_COVERAGE
-  Riemann Client    : 
+Third Party Libraries:
+  Riemann Client
     CFLAGS          : $RIEMANN_CLIENT_CFLAGS
     LIBS            : $RIEMANN_CLIENT_LIBS
+  Boost
+    CPPFLAGS        : $BOOST_CPPFLAGS
+    LDFLAGS         : $BOOST_LDFLAGS
+    LIBS            : $BOOST_PROGRAM_OPTIONS_LIB
 ])

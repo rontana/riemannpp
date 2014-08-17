@@ -10,7 +10,6 @@ TEST_CASE("events can be created and set", "[event]") {
 			riemann::event event;
 			REQUIRE((riemann_event_t*)event != nullptr);
 		}
-		REQUIRE(errno == EINVAL);
 	}
 	SECTION("event create") {
 		

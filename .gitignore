@@ -33,6 +33,11 @@ Doxyfile
 /doc
 .dirstamp
 *.pc
+*.log
+*.trs
+
+# Generated binaries
+src/client/riemannpp
 
 # Hideous eclipse
 .autotools

@@ -10,7 +10,6 @@ TEST_CASE("clients can be created and connect", "[client]") {
 			riemann::client client;
 			REQUIRE((riemann_client_t*)client != nullptr);
 		}
-		REQUIRE(errno == EINVAL);
 	}
 	SECTION("connect and disconnect") {
 
