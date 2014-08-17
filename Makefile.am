@@ -2,7 +2,7 @@
 ACLOCAL_AMFLAGS = -I m4
 
 # Compiler build flags
-AM_CPPFLAGS = -I${top_srcdir}/src
+AM_CPPFLAGS = -I${top_srcdir}/src ${RIEMANN_CLIENT_CFLAGS}
 
 # Build rules for riemannpp library
 pkginclude_HEADERS = \
@@ -23,7 +23,6 @@ src_riemannpp_libriemannpp_la_SOURCES = \
 	src/riemannpp/query.hpp     \
 	src/riemannpp/query.cpp     \
 	src/riemannpp/exception.hpp
-src_riemannpp_libriemannpp_la_CFLAGS = $(AM_CFLAGS) $(RIEMANN_CLIENT_CFLAGS)
 src_riemannpp_libriemannpp_la_LDFLAGS = -version-info 0:0:0
 src_riemannpp_libriemannpp_la_LIBADD = $(RIEMANN_CLIENT_LIBS)
 
