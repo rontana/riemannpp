@@ -31,3 +31,5 @@ coverage
 *.gcda
 Doxyfile
 /doc
+.dirstamp
+*.pc
