@@ -9,17 +9,18 @@ Makefile.in
 /depcomp
 /install-sh
 /missing
-/build-aux/
+/build-aux
 
 # Generated files
 autoscan.log
 libtool
+ltmain.sh
 stamp-h1
 config.*
 Makefile
 Makefile.in
-.deps/
-.libs/
+.deps
+.libs
 *.o
 *.lo
 *.la
@@ -30,5 +31,3 @@ coverage
 *.gcda
 Doxyfile
 /doc
-.dirstamp
-*.pc

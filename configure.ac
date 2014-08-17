@@ -35,7 +35,8 @@ AC_LANG([C++], [C])
 PKG_PROG_PKG_CONFIG
 
 # Check for riemann-client
-PKG_CHECK_MODULES([RIEMANN_CLIENT], [riemann-client >= 0.26])
+PKG_CHECK_MODULES([RIEMANN_CLIENT], [riemann-client >= 0.26], [have_riemann_c=yes], [have_riemann_c=no])
+AM_CONDITIONAL([RIEMANN_CLIENT],  [test "$have_riemann_c" = "yes"])
 
 # Checks for existence of coverage tools and define variables for reporting coverage
 AC_CHECK_COVERAGE
@@ -74,7 +75,7 @@ Configure Information:
     LDFLAGS         :   $LDFLAGS
     LIBS            :   $LIBS
   Coverage Reports  : $ENABLE_COVERAGE
-  Riemann Client    :
+  Riemann Client    : $have_riemann_c
     CFLAGS          : $RIEMANN_CLIENT_CFLAGS
     LIBS            : $RIEMANN_CLIENT_LIBS
 ])
