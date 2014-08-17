@@ -37,7 +37,7 @@ bin_PROGRAMS = \
 src_client_riemannpp_SOURCES = \
 	src/client/riemannpp.cpp
 src_client_riemannpp_CFLAGS = $(AM_CFLAGS) $(RIEMANN_CLIENT_CFLAGS)
-src_client_riemannpp_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la $(LDADD)
+src_client_riemannpp_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la ${RIEMANN_CLIENT_LIBS} $(LDADD)
 
 # Build rules for tests.
 # TESTS_ENVIRONMENT: Set environment variables for the test run
