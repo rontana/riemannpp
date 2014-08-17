@@ -33,3 +33,9 @@ Doxyfile
 /doc
 .dirstamp
 *.pc
+
+# Hideous eclipse
+.autotools
+.cproject
+.project
+.settings/
