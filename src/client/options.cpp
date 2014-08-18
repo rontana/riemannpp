@@ -173,14 +173,18 @@ process_command_line(int argc, char const* argv[]) {
 	ops.show_version = (vm.count("version") > 0);
 	ops.show_help = (vm.count("help") > 0);
 
-	if (vm.count("command")) {
-		if (vm["command"].as<string>() == "send") {
-			process_command_send(vm);
-		} else if (vm["command"].as<string>() == "query") {
-			process_command_query(vm);
+	try {
+		if (vm.count("command")) {
+			if (vm["command"].as<string>() == "send") {
+				process_command_send(vm);
+			} else if (vm["command"].as<string>() == "query") {
+				process_command_query(vm);
+			}
 		}
+	} catch (rpp::internal_exception &e) {
+		cerr << "Error: " << e.error() << " - " << e.reason() << "." << endl;
+		ops.show_usage = true;
 	}
-
 	return ops;
 }
 
