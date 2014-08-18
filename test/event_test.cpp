@@ -5,22 +5,38 @@
 namespace riemann = riemannpp;
 
 TEST_CASE("events can be created and set", "[event]") {
-	SECTION("new and delete") {
-		{
-			riemann::event event;
-			REQUIRE((riemann_event_t*)event != nullptr);
-		}
+	SECTION("default constructor") {
+		riemann::event event;
+		REQUIRE((riemann_event_t*)event != nullptr);
 	}
-	SECTION("event create") {
+	SECTION("move constructor") {
 		
 	}
-	SECTION("event set") {
+	SECTION("construct with list of fields") {
 
 	}
-	SECTION("event add tag") {
+	SECTION("move assignment operator") {
 
 	}
-	SECTION("event add attribute") {
+	SECTION("set field") {
+
+	}
+	SECTION("stream operator set field") {
+
+	}
+	SECTION("set field list") {
+
+	}
+	SECTION("add tag") {
+
+	}
+	SECTION("stream operator add tag") {
+
+	}
+	SECTION("attribute add") {
+
+	}
+	SECTION("stream operator attribute add") {
 
 	}
 }

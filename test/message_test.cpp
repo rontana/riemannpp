@@ -5,16 +5,32 @@
 namespace riemann = riemannpp;
 
 TEST_CASE("messages can be created and set", "[message]") {
-	SECTION("new and delete") {
-		{
-			riemann::message msg;
-			REQUIRE((riemann_message_t*)msg != nullptr);
-		}
+	SECTION("default constructor") {
+		riemann::message msg;
+		REQUIRE((riemann_message_t*)msg != nullptr);
 	}
-	SECTION("message set events") {
+	SECTION("move constructor") {
 
 	}
-	SECTION("message set query") {
+	SECTION("construct with list of events") {
+
+	}
+	SECTION("construct with query") {
+
+	}
+	SECTION("move assignment operator") {
+
+	}
+	SECTION("set event") {
+
+	}
+	SECTION("stream operator set event") {
+
+	}
+	SECTION("set query") {
+
+	}
+	SECTION("stream operator set query") {
 
 	}
 }

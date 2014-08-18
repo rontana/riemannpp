@@ -60,7 +60,8 @@ test_riemannpp_test_SOURCES = \
 	test/attribute_test.cpp \
 	test/client_test.cpp \
 	test/event_test.cpp \
-	test/message_test.cpp
+	test/message_test.cpp \
+	test/query_test.cpp
 test_riemannpp_test_CFLAGS = -I$(top_srcdir)/src $(RIEMANN_CLIENT_CFLAGS)
 test_riemannpp_test_LDADD = $(top_builddir)/src/riemannpp/libriemannpp.la $(LDADD)
 
