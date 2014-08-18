@@ -34,11 +34,15 @@ namespace riemannpp {
 
 		void disconnect();
 
-		void send_message(const message& m);
+		void send_message(message& m);
 
-		void send_message_oneshot(const message& m);
+		void send_message_oneshot(message& m);
+
+		client& operator<<(message &m);
 
 //		std::unique_ptr<message> recv();
+
+//		client& operator>>(message &m);
 
 		operator riemann_client_t*() const { return d_client; }
 

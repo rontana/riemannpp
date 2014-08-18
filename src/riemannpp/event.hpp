@@ -44,11 +44,19 @@ namespace riemannpp {
 
 		event& operator=(event&& e);
 
+		void set(const field& field);
+
+		event& operator<<(field &f);
+
 		void set(const field_list& fields);
 
 		void tag_add(const std::string& tag);
 
-		void attribute_add(const attribute& a);
+		event& operator<<(std::string &t);
+
+		void attribute_add(attribute& a);
+
+		event& operator<<(attribute &a);
 
 		operator riemann_event_t*() const { return d_event.get(); }
 

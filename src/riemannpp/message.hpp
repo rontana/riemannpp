@@ -22,17 +22,23 @@ namespace riemannpp {
 
 		message(message&& m);
 
-		message(const event_list& events);
+		message(event_list& events);
 
-		message(const query& q);
+		message(query& q);
 
 		~message();
 
 		message& operator=(message&& m);
 
-		void set_events(const event_list& events);
+		void set_event(event& e);
 
-		void set_query(const query& q);
+		message& operator<<(event &e);
+
+		void set_events(event_list& events);
+
+		void set_query(query& q);
+
+		message& operator<<(query &q);
 
 		operator riemann_message_t*() const { return d_message.get(); }
 

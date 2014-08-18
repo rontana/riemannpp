@@ -46,7 +46,7 @@ client::disconnect() {
 }
 
 void 
-client::send_message(const message& m) {
+client::send_message(message& m) {
 	int result = riemann_client_send_message(d_client, (riemann_message_t*)m);
 	if (-1 == result) {
 		throw new internal_exception();
@@ -54,11 +54,17 @@ client::send_message(const message& m) {
 }
 
 void 
-client::send_message_oneshot(const message& m) {
+client::send_message_oneshot(message& m) {
 	int result = riemann_client_send_message_oneshot(d_client, (riemann_message_t*)m);
 	if (-1 == result) {
 		throw new internal_exception();
 	}
+}
+
+client&
+client::operator<<(message &m) {
+	send_message(m);
+	return (*this);
 }
 
 //std::unique_ptr<message>

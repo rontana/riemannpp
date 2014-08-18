@@ -11,12 +11,12 @@ message::message(message&& m) {
 	*this = std::move(m);
 }
 
-message::message(const event_list& events) {
+message::message(event_list& events) {
 	d_message.reset(riemann_message_new());
 	set_events(events);
 }
 
-message::message(const query& q) {
+message::message(query& q) {
 	d_message.reset(riemann_message_new());
 	set_query(q);
 }
@@ -34,20 +34,36 @@ message::operator=(message&& m) {
 }
 
 void
-message::set_events(const event_list& events) {
-	for (auto &event : events) {
-		riemann_event_t* evp = (riemann_event_t*)event;
-		int result = riemann_message_set_events_n(d_message.get(), 1, &evp);
-		if (-1 == result) {
-			throw new internal_exception();
-		}
+message::set_event(event& e) {
+	riemann_event_t* evp = (riemann_event_t*)e;
+	int result = riemann_message_set_events_n(d_message.get(), 1, &evp);
+	if (-1 == result) {
+		throw new internal_exception();
+	}
+}
+
+message&
+message::operator<<(event &e) {
+	return (*this);
+}
+
+void
+message::set_events(event_list& events) {
+	for (auto &e : events) {
+		set_event(e);
 	}
 }
 
 void
-message::set_query(const query& q) {
+message::set_query(query& q) {
 	int result = riemann_message_set_query(d_message.get(), (riemann_query_t*)q);
 	if (-1 == result) {
 		throw new internal_exception();
 	}
+}
+
+message&
+message::operator<<(query &q) {
+	set_query(q);
+	return (*this);
 }
