@@ -3,6 +3,14 @@
 
 using namespace riemannpp;
 
+query::query()
+	: d_query(nullptr)
+{}
+
+query::query(query&& q) {
+	*this = std::move(q);
+}
+
 query::query(const std::string& query) {
 	d_query.reset(riemann_query_new(query.c_str()));
 }
@@ -11,6 +19,12 @@ query::~query() {
 	if (d_query) {
 		riemann_query_free(d_query.release());
 	}
+}
+
+query&
+query::operator=(query&& q) {
+	d_query = std::move(q.d_query);
+	return *this;
 }
 
 void 

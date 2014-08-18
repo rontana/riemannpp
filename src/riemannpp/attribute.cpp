@@ -7,6 +7,10 @@ attribute::attribute() {
 	d_attribute.reset(riemann_attribute_new());
 }
 
+attribute::attribute(attribute&& a) {
+	*this = std::move(a);
+}
+
 attribute::attribute(const std::string& key, const std::string& value) {
 	d_attribute.reset(riemann_attribute_create(key.c_str(), value.c_str()));
 }
@@ -15,6 +19,12 @@ attribute::~attribute() {
 	if (d_attribute) {
 		riemann_attribute_free(d_attribute.release());
 	}
+}
+
+attribute&
+attribute::operator=(attribute&& a) {
+	d_attribute = std::move(a.d_attribute);
+	return (*this);
 }
 
 void 

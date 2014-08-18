@@ -20,17 +20,26 @@ namespace riemannpp {
 	public:
 		message();
 
+		message(message&& m);
+
 		message(const event_list& events);
 
 		message(const query& q);
 
 		~message();
 
+		message& operator=(message&& m);
+
 		void set_events(const event_list& events);
 
 		void set_query(const query& q);
 
 		operator riemann_message_t*() const { return d_message.get(); }
+
+	private:
+		message(const message& m);
+
+		message& operator=(const message& m);
 	};
 
 }

@@ -1,9 +1,6 @@
 #include "options.hpp"
-#include <riemannpp/riemannpp.hpp>
-#include <riemann/riemann-client.h>
 #include <iostream>
-
-namespace rpp = riemannpp;
+#include <string>
 
 using namespace client;
 using namespace std;

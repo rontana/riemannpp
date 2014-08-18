@@ -7,6 +7,10 @@ event::event() {
 	d_event.reset(riemann_event_new());
 }
 
+event::event(event&& e) {
+	*this = std::move(e);
+}
+
 event::event(const field_list& fields) {
 	d_event.reset(riemann_event_new());
 	set(fields);
@@ -16,6 +20,12 @@ event::~event() {
 	if (d_event) {
 		riemann_event_free(d_event.release());
 	}
+}
+
+event&
+event::operator=(event&& e) {
+	d_event = std::move(e.d_event);
+	return (*this);
 }
 
 void 

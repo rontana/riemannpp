@@ -14,9 +14,13 @@ namespace riemannpp {
 	public:
 		attribute();
 
+		attribute(attribute&& a);
+
 		attribute(const std::string& key, const std::string& value);
 
 		~attribute();
+
+		attribute& operator=(attribute&& a);
 
 		void set(const std::string& key, const std::string& value);
 
@@ -25,6 +29,11 @@ namespace riemannpp {
 		void set_value(const std::string& value);
 
 		operator riemann_attribute_t*() const { return d_attribute.get(); }
+
+	private:
+		attribute(const attribute& a);
+
+		attribute& operator=(const attribute& a);
 	};
 
 }

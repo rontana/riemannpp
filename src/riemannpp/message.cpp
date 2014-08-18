@@ -7,6 +7,10 @@ message::message() {
 	d_message.reset(riemann_message_new());
 }
 
+message::message(message&& m) {
+	*this = std::move(m);
+}
+
 message::message(const event_list& events) {
 	d_message.reset(riemann_message_new());
 	set_events(events);
@@ -21,6 +25,12 @@ message::~message() {
 	if (d_message) {
 		riemann_message_free(d_message.release());
 	}
+}
+
+message&
+message::operator=(message&& m) {
+	d_message = std::move(m.d_message);
+	return (*this);
 }
 
 void

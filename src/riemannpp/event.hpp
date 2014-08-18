@@ -36,9 +36,13 @@ namespace riemannpp {
 	public:
 		event();
 
+		event(event&& e);
+
 		event(const field_list& fields);
 
 		~event();
+
+		event& operator=(event&& e);
 
 		void set(const field_list& fields);
 
@@ -47,6 +51,11 @@ namespace riemannpp {
 		void attribute_add(const attribute& a);
 
 		operator riemann_event_t*() const { return d_event.get(); }
+
+	private:
+		event(const event& e);
+
+		event& operator=(const event& e);
 	};
 
 }

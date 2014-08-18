@@ -18,14 +18,17 @@ namespace riemannpp {
 
 	class client {
 		riemann_client_t* d_client;
-		client_type       d_type;
 
 	public:
 		client();
 
+		client(client&& c);
+
 		client(client_type type, const std::string& host, int port);
 
 		~client();
+
+		client& operator=(client&& c);
 
 		void connect(client_type type, const std::string& host, int port);
 
@@ -38,6 +41,11 @@ namespace riemannpp {
 //		std::unique_ptr<message> recv();
 
 		operator riemann_client_t*() const { return d_client; }
+
+	private:
+		client(const client& c);
+
+		client& operator=(const client& c);
 	};
 
 }

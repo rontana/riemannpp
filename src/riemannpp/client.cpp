@@ -3,15 +3,15 @@
 
 using namespace riemannpp;
 
-client::client()
-	: d_type(client_type::none)
-{
+client::client() {
 	d_client = riemann_client_new();
 }
 
-client::client(client_type type, const std::string& host, int port)
-	: d_type(client_type::none)
-{
+client::client(client&& c) {
+	*this = std::move(c);
+}
+
+client::client(client_type type, const std::string& host, int port) {
 	d_client = riemann_client_create(riemann_client_type_t(type), host.c_str(), port);
 }
 
@@ -20,6 +20,13 @@ client::~client() {
 		riemann_client_free(d_client);
 		d_client = nullptr;
 	}
+}
+
+client&
+client::operator=(client&& c) {
+	d_client = c.d_client;
+	c.d_client = nullptr;
+	return (*this);
 }
 
 void 
