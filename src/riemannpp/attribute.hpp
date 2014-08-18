@@ -28,6 +28,8 @@ namespace riemannpp {
 
 		void set_value(const std::string& value);
 
+		riemann_attribute_t* release() { return d_attribute.release(); }
+
 		operator riemann_attribute_t*() const { return d_attribute.get(); }
 
 	private:

@@ -58,6 +58,8 @@ namespace riemannpp {
 
 		event& operator<<(attribute &a);
 
+		riemann_event_t* release() { return d_event.release(); }
+
 		operator riemann_event_t*() const { return d_event.get(); }
 
 	private:

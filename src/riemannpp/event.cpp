@@ -65,7 +65,7 @@ event::operator<<(std::string &t) {
 
 void 
 event::attribute_add(attribute& a) {
-	int result = riemann_event_attribute_add(d_event.get(), (riemann_attribute_t*)a);
+	int result = riemann_event_attribute_add(d_event.get(), a.release());
 	if (-1 == result) {
 		throw new internal_exception();
 	}

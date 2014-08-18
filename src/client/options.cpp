@@ -66,48 +66,51 @@ process_command_send(const bpo::variables_map& vm) {
 	client.connect(type, vm["rhost"].as<string>(), vm["rport"].as<int>());
 
 	rpp::event event;
-	rpp::field_list fields;
-
 	if (vm.count("state")) {
-		fields.push_back(rpp::field(rpp::event_field::state, vm["state"].as<string>()));
+		rpp::field f(rpp::event_field::state, vm["state"].as<string>());
+		event << f;
 	}
 	if (vm.count("service")) {
-		fields.push_back(rpp::field(rpp::event_field::service, vm["service"].as<string>()));
+		rpp::field f(rpp::event_field::service, vm["service"].as<string>());
+		event << f;
 	}
 	if (vm.count("host")) {
-		fields.push_back(rpp::field(rpp::event_field::host, vm["host"].as<string>()));
+		rpp::field f(rpp::event_field::host, vm["host"].as<string>());
+		event << f;
 	}
 	if (vm.count("description")) {
-		fields.push_back(rpp::field(rpp::event_field::description, vm["description"].as<string>()));
+		rpp::field f(rpp::event_field::description, vm["description"].as<string>());
+		event << f;
 	}
-	if (vm.count("attribute")) {
-		rpp::attribute attribute;
-		vm["attribute"].as<string>();
-	}
+//	if (vm.count("attribute")) {
+//		rpp::attribute attribute;
+//		vm["attribute"].as<string>();
+//	}
 	if (vm.count("tag")) {
-		event.tag_add(vm["attributes"].as<string>());
+		string s(vm["tag"].as<string>());
+		event << s;
 	}
 	if (vm.count("metric-sint64")) {
-		fields.push_back(rpp::field(rpp::event_field::metrics64, vm["metric-sint64"].as<string>()));
+		rpp::field f(rpp::event_field::metrics64, vm["metric-sint64"].as<string>());
+		event << f;
 	}
 	if (vm.count("metric-dbl")) {
-		fields.push_back(rpp::field(rpp::event_field::metricd, vm["metric-dbl"].as<string>()));
+		rpp::field f(rpp::event_field::metricd, vm["metric-dbl"].as<string>());
+		event << f;
 	}
 	if (vm.count("metric-flt")) {
-		fields.push_back(rpp::field(rpp::event_field::metricf, vm["metric-flt"].as<string>()));
+		rpp::field f(rpp::event_field::metricf, vm["metric-flt"].as<string>());
+		event << f;
 	}
 	if (vm.count("ttl")) {
-		fields.push_back(rpp::field(rpp::event_field::ttl, vm["ttl"].as<string>()));
+		rpp::field f(rpp::event_field::ttl, vm["ttl"].as<string>());
+		event << f;
 	}
-	event.set(fields);
-
-	rpp::event_list events;
-	events.push_back(std::move(event));
 
 	rpp::message message;
-	message.set_events(events);
+	message << event;
 
-	client.send_message(message);
+	client << message;
 }
 
 void

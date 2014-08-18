@@ -40,6 +40,8 @@ namespace riemannpp {
 
 		message& operator<<(query &q);
 
+		riemann_message_t* release() { return d_message.release(); }
+
 		operator riemann_message_t*() const { return d_message.get(); }
 
 	private:
