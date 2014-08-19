@@ -82,10 +82,15 @@ process_command_send(const bpo::variables_map& vm) {
 		rpp::field f(rpp::event_field::description, vm["description"].as<string>());
 		event << f;
 	}
-//	if (vm.count("attribute")) {
-//		rpp::attribute attribute;
-//		vm["attribute"].as<string>();
-//	}
+	if (vm.count("attribute")) {
+		rpp::attribute attribute;
+		string tmp = vm["attribute"].as<string>();
+		if (size_t it = tmp.find(':') != string::npos) {
+			attribute.set(tmp.substr(0, (it+2)), tmp.substr(it+3));
+		} else {
+			attribute.set_key(tmp);
+		}
+	}
 	if (vm.count("tag")) {
 		string s(vm["tag"].as<string>());
 		event << s;
