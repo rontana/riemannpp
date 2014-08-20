@@ -51,7 +51,7 @@ int main() {
 		rpp::event rcv_evt;
 		client >> rcv_evt;
 	} catch (rpp::internal_exception &e) {
-		std::cerr << e.what() << endl;
+		std::cerr << "Error: " << e.error() << " - " << e.reason() << "." << std::endl;
 		exit (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
