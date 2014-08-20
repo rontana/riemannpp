@@ -71,6 +71,10 @@ namespace riemannpp {
 		template<typename T>
 		T           get_metric();
 
+		std::vector<std::string> get_tags();
+
+		std::vector<attribute> get_attributes();
+
 		void set_state(std::string val);
 
 		void set_service(std::string val);

@@ -135,6 +135,28 @@ double event::get_metric() {
 	return 0.;
 }
 
+std::vector<std::string>
+event::get_tags() {
+	std::vector<std::string> result;
+	if (d_event && d_event->n_tags) {
+		for (size_t i = 0; i < d_event->n_tags; ++i) {
+			result.push_back(d_event->tags[i]);
+		}
+	}
+	return result;
+}
+
+std::vector<attribute>
+event::get_attributes() {
+	std::vector<attribute> result;
+	if (d_event && d_event->n_attributes) {
+		for (size_t i = 0; i < d_event->n_attributes; ++i) {
+			result.push_back(d_event->attributes[i]);
+		}
+	}
+	return result;
+}
+
 void event::set_state(std::string val) {
 	set(event_field::state, val);
 }

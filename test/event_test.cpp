@@ -81,10 +81,12 @@ TEST_CASE("events can be created and set", "[event]") {
 	SECTION("add tag") {
 		riemann::event event;
 		event.tag_add("tag");
+		REQUIRE(event.get_tags().size() == 1);
 	}
 	SECTION("stream operator add tag") {
 		riemann::event event;
-		event << "tag";
+		event << "tag1" << "tag2";
+		REQUIRE(event.get_tags().size() == 2);
 	}
 	SECTION("attribute add") {
 		riemann::event event;
