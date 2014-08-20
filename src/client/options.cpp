@@ -105,6 +105,12 @@ process_command_send(const bpo::variables_map& vm) {
 
 	std::unique_ptr<rpp::message> response;
 	client >> response;
+
+	if (!(riemann_message_t*)(*response)) {
+		cerr << "Error when asking for a message receipt: " << strerror(errno) << endl;
+	} else if (!response->get_ok()) {
+		cerr << "Message receipt failed: " << response->get_error() << endl;
+	}
 }
 
 void
@@ -122,6 +128,12 @@ process_command_query(const bpo::variables_map& vm) {
 
 	std::unique_ptr<rpp::message> response;
 	client >> response;
+
+	if (!(riemann_message_t*)(*response)) {
+		cerr << "Error when asking for a message receipt: " << strerror(errno) << endl;
+	} else if (!response->get_ok()) {
+		cerr << "Message receipt failed: " << response->get_error() << endl;
+	}
 }
 
 options 
@@ -178,6 +190,9 @@ process_command_line(int argc, char const* argv[]) {
 		}
 	} catch (rpp::internal_exception &e) {
 		cerr << "Error: " << e.error() << " - " << e.reason() << "." << endl;
+		ops.show_usage = true;
+	} catch (...) {
+		cerr << "Unknown error." << endl;
 		ops.show_usage = true;
 	}
 	return ops;
