@@ -41,11 +41,15 @@ using namespace std;
 int main() {
 	try {
 		rpp::client client(rpp::client_type::tcp, "localhost", 5555);
-		rpp::event evt;
-		evt << make_tuple(rpp::event_field::host,    "localhost")
-		    << make_tuple(rpp::event_field::service, "demo-client")
-		    << make_tuple(rpp::event_field::state,   "ok");
-		client << evt;
+		
+		rpp::event snd_evt;
+		snd_evt << make_tuple(rpp::event_field::host,    "localhost")
+		        << make_tuple(rpp::event_field::service, "demo-client")
+		        << make_tuple(rpp::event_field::state,   "ok");
+		client << snd_evt;
+		
+		rpp::event rcv_evt;
+		client >> rcv_evt;
 	} catch (rpp::internal_exception &e) {
 		std::cerr << e.what() << endl;
 		exit (EXIT_FAILURE);

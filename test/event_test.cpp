@@ -23,25 +23,60 @@ TEST_CASE("events can be created and set", "[event]") {
 	}
 	SECTION("set field") {
 		riemann::event event;
-		event.set(riemann::event_field::state,       "ok");
-		event.set(riemann::event_field::service,     "test");
-		event.set(riemann::event_field::host,        "localhost");
+		event.set(riemann::event_field::state, "ok");
+		REQUIRE(event.get_state() == "ok");
+		event.set(riemann::event_field::service, "test");
+		REQUIRE(event.get_service() == "test");
+		event.set(riemann::event_field::host, "localhost");
+		REQUIRE(event.get_host() == "localhost");
 		event.set(riemann::event_field::description, "description");
-		event.set(riemann::event_field::ttl,         0.f);
-		event.set(riemann::event_field::metrics64,   0);
-		event.set(riemann::event_field::metricd,     0.0);
-		event.set(riemann::event_field::metricf,     0.f);
+		REQUIRE(event.get_description() == "description");
+		event.set(riemann::event_field::ttl, 0.f);
+		REQUIRE(event.get_ttl() == 0.f);
+		event.set(riemann::event_field::metrics64, 0);
+		REQUIRE(event.get_metric<int64_t>() == 0);
+		event.set(riemann::event_field::metricd, 0.0);
+		REQUIRE(event.get_metric<double>() == 0.0);
+		event.set(riemann::event_field::metricf, 0.f);
+		REQUIRE(event.get_metric<float>() == 0.f);
 	}
 	SECTION("stream operator set field") {
 		riemann::event event;
-		event << std::make_tuple(riemann::event_field::state,       "ok")
-		      << std::make_tuple(riemann::event_field::service,     "test")
-		      << std::make_tuple(riemann::event_field::host,        "localhost")
-		      << std::make_tuple(riemann::event_field::description, "description")
-		      << std::make_tuple(riemann::event_field::ttl,         0.f)
-		      << std::make_tuple(riemann::event_field::metrics64,   0)
-		      << std::make_tuple(riemann::event_field::metricd,     0.0)
-	          << std::make_tuple(riemann::event_field::metricf,     0.f);
+		event << std::make_tuple(riemann::event_field::state, "ok");
+		REQUIRE(event.get_state() == "ok");
+		event << std::make_tuple(riemann::event_field::service, "test");
+		REQUIRE(event.get_service() == "test");
+		event << std::make_tuple(riemann::event_field::host, "localhost");
+		REQUIRE(event.get_host() == "localhost");
+		event << std::make_tuple(riemann::event_field::description, "description");
+		REQUIRE(event.get_description() == "description");
+		event << std::make_tuple(riemann::event_field::ttl, 0.f);
+		REQUIRE(event.get_ttl() == 0.f);
+		event << std::make_tuple(riemann::event_field::metrics64, 0);
+		REQUIRE(event.get_metric<int64_t>() == 0);
+		event << std::make_tuple(riemann::event_field::metricd, 0.0);
+		REQUIRE(event.get_metric<double>() == 0.0);
+		event << std::make_tuple(riemann::event_field::metricf, 0.f);
+		REQUIRE(event.get_metric<float>() == 0.f);
+	}
+	SECTION("set field by name") {
+		riemann::event event;
+		event.set_state("ok");
+		REQUIRE(event.get_state() == "ok");
+		event.set_service("test");
+		REQUIRE(event.get_service() == "test");
+		event.set_host("localhost");
+		REQUIRE(event.get_host() == "localhost");
+		event.set_description("description");
+		REQUIRE(event.get_description() == "description");
+		event.set_ttl(0.f);
+		REQUIRE(event.get_ttl() == 0.f);
+		event.set_metric(int64_t(0));
+		REQUIRE(event.get_metric<int64_t>() == 0);
+		event.set_metric(0.f);
+		REQUIRE(event.get_metric<float>() == 0.f);
+		event.set_metric(0.);
+		REQUIRE(event.get_metric<double>() == 0.0);
 	}
 	SECTION("add tag") {
 		riemann::event event;

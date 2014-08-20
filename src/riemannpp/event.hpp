@@ -34,6 +34,8 @@ namespace riemannpp {
 	public:
 		event();
 
+		event(riemann_event_t* e);
+
 		event(event&& e);
 
 		~event();
@@ -53,6 +55,34 @@ namespace riemannpp {
 		void attribute_add(attribute&& a);
 
 		event& operator<<(attribute&& a);
+
+		int64_t     get_time();
+
+		std::string get_state();
+
+		std::string get_service();
+
+		std::string get_host();
+
+		std::string get_description();
+
+		float       get_ttl();
+
+		template<typename T>
+		T           get_metric();
+
+		void set_state(std::string val);
+
+		void set_service(std::string val);
+
+		void set_host(std::string val);
+
+		void set_description(std::string val);
+
+		void set_ttl(float val);
+
+		template<typename T>
+		void set_metric(const T val);
 
 		riemann_event_t* release() { return d_event.release(); }
 
@@ -80,6 +110,24 @@ namespace riemannpp {
 		set(std::get<0>(f), std::get<1>(f));
 		return (*this);
 	}
+
+	template<>
+	int64_t event::get_metric();
+
+	template<>
+	float event::get_metric();
+
+	template<>
+	double event::get_metric();
+
+	template<>
+	void event::set_metric(const int64_t val);
+
+	template<>
+	void event::set_metric(const float val);
+
+	template<>
+	void event::set_metric(const double val);
 
 }
 

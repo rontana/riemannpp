@@ -12,9 +12,6 @@ TEST_CASE("messages can be created and set", "[message]") {
 	SECTION("move constructor") {
 
 	}
-	SECTION("construct with list of events") {
-
-	}
 	SECTION("construct with query") {
 
 	}

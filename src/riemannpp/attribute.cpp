@@ -3,17 +3,21 @@
 
 using namespace riemannpp;
 
-attribute::attribute() {
-	d_attribute.reset(riemann_attribute_new());
-}
+attribute::attribute()
+	: d_attribute(riemann_attribute_new())
+{}
+
+attribute::attribute(riemann_attribute_t* a)
+	: d_attribute(a)
+{}
 
 attribute::attribute(attribute&& a) {
 	*this = std::move(a);
 }
 
-attribute::attribute(const std::string& key, const std::string& value) {
-	d_attribute.reset(riemann_attribute_create(key.c_str(), value.c_str()));
-}
+attribute::attribute(const std::string& key, const std::string& value)
+	: d_attribute(riemann_attribute_create(key.c_str(), value.c_str()))
+{}
 
 attribute::~attribute() {
 	if (d_attribute) {
@@ -50,3 +54,20 @@ attribute::set_value(const std::string& value) {
 		throw new internal_exception();
 	}
 }
+
+std::string
+attribute::get_key() {
+	if (d_attribute) {
+		return d_attribute->key;
+	}
+	return "";
+}
+
+std::string
+attribute::get_value() {
+	if (d_attribute) {
+		return d_attribute->value;
+	}
+	return "";
+}
+

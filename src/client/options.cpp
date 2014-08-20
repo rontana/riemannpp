@@ -101,11 +101,10 @@ process_command_send(const bpo::variables_map& vm) {
 	if (vm.count("ttl")) {
 		event << make_tuple(rpp::event_field::ttl, vm["ttl"].as<float>());
 	}
+	client << event;
 
-	rpp::message message;
-	message << event;
-
-	client << message;
+	std::unique_ptr<rpp::message> response;
+	client >> response;
 }
 
 void
@@ -117,14 +116,12 @@ process_command_query(const bpo::variables_map& vm) {
 	if (vm.count("query")) {
 		query.set_string(vm["query"].as<string>());
 	}
-
-	rpp::message message;
-	message.set_query(query);
-
-	client.send_message_oneshot(message);
+	client << query;
 
 	// ops.result_json = (vm.count("json") > 0);
-	// client.recv();
+
+	std::unique_ptr<rpp::message> response;
+	client >> response;
 }
 
 options 

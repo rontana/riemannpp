@@ -22,6 +22,8 @@ namespace riemannpp {
 	public:
 		client();
 
+		client(riemann_client_t* c);
+
 		client(client&& c);
 
 		client(client_type type, const std::string& host, int port);
@@ -44,9 +46,9 @@ namespace riemannpp {
 
 		client& operator<<(query &q);
 
-//		std::unique_ptr<message> recv();
+		std::unique_ptr<message> recv();
 
-//		client& operator>>(message &m);
+		client& operator>>(std::unique_ptr<message> &m);
 
 		operator riemann_client_t*() const { return d_client; }
 

@@ -3,9 +3,13 @@
 
 using namespace riemannpp;
 
-client::client() {
-	d_client = riemann_client_new();
-}
+client::client()
+	: d_client(riemann_client_new())
+{}
+
+client::client(riemann_client_t* c)
+	: d_client(c)
+{}
 
 client::client(client&& c) {
 	*this = std::move(c);
@@ -81,7 +85,13 @@ client::operator<<(query &q) {
 	return (*this);
 }
 
-//std::unique_ptr<message>
-//client::recv() {
-//	return std::unique_ptr<message>(new message()/*riemann_client_recv_message(d_client.get())*/);
-//}
+std::unique_ptr<message>
+client::recv() {
+	return std::unique_ptr<message>(new message(riemann_client_recv_message(d_client)));
+}
+
+client&
+client::operator>>(std::unique_ptr<message> &m) {
+	m = recv();
+	return (*this);
+}

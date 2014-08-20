@@ -14,6 +14,8 @@ namespace riemannpp {
 	public:
 		query();
 
+		query(riemann_query_t* q);
+
 		query(query&& q);
 
 		query(const std::string& query);

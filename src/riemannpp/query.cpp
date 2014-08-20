@@ -7,6 +7,10 @@ query::query()
 	: d_query(nullptr)
 {}
 
+query::query(riemann_query_t* q)
+	: d_query(q)
+{}
+
 query::query(query&& q) {
 	*this = std::move(q);
 }

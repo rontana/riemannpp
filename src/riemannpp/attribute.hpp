@@ -14,6 +14,8 @@ namespace riemannpp {
 	public:
 		attribute();
 
+		attribute(riemann_attribute_t* a);
+
 		attribute(attribute&& a);
 
 		attribute(const std::string& key, const std::string& value);
@@ -27,6 +29,10 @@ namespace riemannpp {
 		void set_key(const std::string& key);
 
 		void set_value(const std::string& value);
+
+		std::string get_key();
+
+		std::string get_value();
 
 		riemann_attribute_t* release() { return d_attribute.release(); }
 
