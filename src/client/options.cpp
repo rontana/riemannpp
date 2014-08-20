@@ -67,49 +67,39 @@ process_command_send(const bpo::variables_map& vm) {
 
 	rpp::event event;
 	if (vm.count("state")) {
-		rpp::field f(rpp::event_field::state, vm["state"].as<string>());
-		event << f;
+		event << make_tuple(rpp::event_field::state, vm["state"].as<string>());
 	}
 	if (vm.count("service")) {
-		rpp::field f(rpp::event_field::service, vm["service"].as<string>());
-		event << f;
+		event << make_tuple(rpp::event_field::service, vm["service"].as<string>());
 	}
 	if (vm.count("host")) {
-		rpp::field f(rpp::event_field::host, vm["host"].as<string>());
-		event << f;
+		event << make_tuple(rpp::event_field::host, vm["host"].as<string>());
 	}
 	if (vm.count("description")) {
-		rpp::field f(rpp::event_field::description, vm["description"].as<string>());
-		event << f;
+		event << make_tuple(rpp::event_field::description, vm["description"].as<string>());
 	}
 	if (vm.count("attribute")) {
-		rpp::attribute attribute;
 		string tmp = vm["attribute"].as<string>();
-		if (size_t it = tmp.find(':') != string::npos) {
-			attribute.set(tmp.substr(0, (it+2)), tmp.substr(it+3));
+		if (size_t it = tmp.find('=') != string::npos) {
+			event << rpp::attribute(tmp.substr(0, (it+2)), tmp.substr(it+3));
 		} else {
-			attribute.set_key(tmp);
+			event << rpp::attribute(tmp, "");
 		}
 	}
 	if (vm.count("tag")) {
-		string s(vm["tag"].as<string>());
-		event << s;
+		event << vm["tag"].as<string>();
 	}
 	if (vm.count("metric-sint64")) {
-		rpp::field f(rpp::event_field::metrics64, vm["metric-sint64"].as<string>());
-		event << f;
+		event << make_tuple(rpp::event_field::metrics64, vm["metric-sint64"].as<int64_t>());
 	}
 	if (vm.count("metric-dbl")) {
-		rpp::field f(rpp::event_field::metricd, vm["metric-dbl"].as<string>());
-		event << f;
+		event << make_tuple(rpp::event_field::metricd, vm["metric-dbl"].as<double>());
 	}
 	if (vm.count("metric-flt")) {
-		rpp::field f(rpp::event_field::metricf, vm["metric-flt"].as<string>());
-		event << f;
+		event << make_tuple(rpp::event_field::metricf, vm["metric-flt"].as<float>());
 	}
 	if (vm.count("ttl")) {
-		rpp::field f(rpp::event_field::ttl, vm["ttl"].as<string>());
-		event << f;
+		event << make_tuple(rpp::event_field::ttl, vm["ttl"].as<float>());
 	}
 
 	rpp::message message;

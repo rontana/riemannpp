@@ -11,11 +11,6 @@ event::event(event&& e) {
 	*this = std::move(e);
 }
 
-event::event(const field_list& fields) {
-	d_event.reset(riemann_event_new());
-	set(fields);
-}
-
 event::~event() {
 	if (d_event) {
 		riemann_event_free(d_event.release());
@@ -28,24 +23,11 @@ event::operator=(event&& e) {
 	return (*this);
 }
 
-void 
-event::set(const field& f) {
-	int result = riemann_event_set(d_event.get(), std::get<0>(f), std::get<1>(f).c_str(), RIEMANN_EVENT_FIELD_NONE);
+template<>
+void event::set(const event_field field, const std::string& value) {
+	int result = riemann_event_set(d_event.get(), field, value.c_str(), RIEMANN_EVENT_FIELD_NONE);
 	if (-1 == result) {
 		throw new internal_exception();
-	}
-}
-
-event&
-event::operator<<(field &f) {
-	set(f);
-	return (*this);
-}
-
-void
-event::set(const field_list& fields) {
-	for (auto &f : fields) {
-		set(f);
 	}
 }
 
@@ -58,13 +40,13 @@ event::tag_add(const std::string& tag) {
 }
 
 event&
-event::operator<<(std::string &t) {
+event::operator<<(std::string t) {
 	tag_add(t);
 	return (*this);
 }
 
 void 
-event::attribute_add(attribute& a) {
+event::attribute_add(attribute&& a) {
 	int result = riemann_event_attribute_add(d_event.get(), a.release());
 	if (-1 == result) {
 		throw new internal_exception();
@@ -72,7 +54,7 @@ event::attribute_add(attribute& a) {
 }
 
 event&
-event::operator<<(attribute &a) {
-	attribute_add(a);
+event::operator<<(attribute&& a) {
+	attribute_add(std::move(a));
 	return (*this);
 }

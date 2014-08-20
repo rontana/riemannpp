@@ -40,6 +40,10 @@ namespace riemannpp {
 
 		client& operator<<(message &m);
 
+		client& operator<<(event &e);
+
+		client& operator<<(query &q);
+
 //		std::unique_ptr<message> recv();
 
 //		client& operator>>(message &m);

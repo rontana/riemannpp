@@ -16,7 +16,9 @@ Features:
 
 ## Installation
 
-The library uses autotools along with a dependency on the [Riemann C client library](https://github.com/algernon/riemann-c-client):
+If you're a developer, Riemann uses [Google Protocol Buffers](http://code.google.com/p/protobuf/), so make sure that's installed and available on your system path.
+
+The library uses autotools along with a dependency on the [Riemann C client library](https://github.com/algernon/riemann-c-client). First install that library (instructions in README.md), then continue with the following commands to build and install riemannpp:
 
 ```bash
 $ git clone git://github.com/bigdatadev/riemannpp.git
@@ -25,25 +27,25 @@ $ autoreconf -i
 $ ./configure && make && make check && make install
 ```
 
-If you're a developer, Riemann uses [Google Protocol Buffers](http://code.google.com/p/protobuf/), so make sure that's installed and available on your PATH.
-
 ## Getting Started
 
-First we'll need to import the library:
+Here is a simple example of how to connect to a Riemann server using tcp and send an event:
 
 ```cpp
 #include <riemannpp/riemannpp.hpp>
+#include <tuple>
 
 namespace rpp = riemannpp;
+using namespace std;
 
 int main() {
 	try {
 		rpp::client client(rpp::client_type::tcp, "localhost", 5555);
-		client.send_message(rpp::message(rpp::event(
-			rpp::event_field::host,    "localhost",
-			rpp::event_field::service, "demo-client",
-			rpp::event_field::state,   "ok"))
-		);
+		rpp::event evt;
+		evt << make_tuple(rpp::event_field::host,    "localhost")
+		    << make_tuple(rpp::event_field::service, "demo-client")
+		    << make_tuple(rpp::event_field::state,   "ok");
+		client << evt;
 	} catch (rpp::internal_exception &e) {
 		std::cerr << e.what() << endl;
 		exit (EXIT_FAILURE);

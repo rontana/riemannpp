@@ -67,6 +67,20 @@ client::operator<<(message &m) {
 	return (*this);
 }
 
+client&
+client::operator<<(event &e) {
+	message m;
+	send_message(m << e);
+	return (*this);
+}
+
+client&
+client::operator<<(query &q) {
+	message m;
+	send_message(m << q);
+	return (*this);
+}
+
 //std::unique_ptr<message>
 //client::recv() {
 //	return std::unique_ptr<message>(new message()/*riemann_client_recv_message(d_client.get())*/);

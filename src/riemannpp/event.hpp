@@ -2,6 +2,7 @@
 #define RIEMANNPP_EVENT_HPP
 
 #include "attribute.hpp"
+#include "exception.hpp"
 
 #include <riemann/riemann-client.h>
 
@@ -27,9 +28,6 @@ namespace riemannpp {
 		metricf     = RIEMANN_EVENT_FIELD_METRIC_F
 	};
 
-	typedef std::tuple<event_field, std::string> field;
-	typedef std::vector<field>                   field_list;
-
 	class event {
 		std::unique_ptr<riemann_event_t> d_event;
 
@@ -38,25 +36,23 @@ namespace riemannpp {
 
 		event(event&& e);
 
-		event(const field_list& fields);
-
 		~event();
 
 		event& operator=(event&& e);
 
-		void set(const field& field);
+		template<typename T>
+		void set(const event_field field, const T& value);
 
-		event& operator<<(field &f);
-
-		void set(const field_list& fields);
+		template<typename T>
+		event& operator<<(std::tuple<event_field, T> f);
 
 		void tag_add(const std::string& tag);
 
-		event& operator<<(std::string &t);
+		event& operator<<(std::string t);
 
-		void attribute_add(attribute& a);
+		void attribute_add(attribute&& a);
 
-		event& operator<<(attribute &a);
+		event& operator<<(attribute&& a);
 
 		riemann_event_t* release() { return d_event.release(); }
 
@@ -67,6 +63,23 @@ namespace riemannpp {
 
 		event& operator=(const event& e);
 	};
+
+	template<typename T>
+	void event::set(const event_field field, const T& value) {
+		int result = riemann_event_set(d_event.get(), field, value, RIEMANN_EVENT_FIELD_NONE);
+		if (-1 == result) {
+			throw new internal_exception();
+		}
+	}
+
+	template<>
+	void event::set(const event_field field, const std::string& value);
+
+	template<typename T>
+	event& event::operator<<(std::tuple<event_field, T> f) {
+		set(std::get<0>(f), std::get<1>(f));
+		return (*this);
+	}
 
 }
 
