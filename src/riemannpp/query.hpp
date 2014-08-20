@@ -26,6 +26,8 @@ namespace riemannpp {
 
 		void set_string(const std::string& query);
 
+		std::string get_string();
+
 		riemann_query_t* release() { return d_query.release(); }
 
 		operator riemann_query_t*() const { return d_query.get(); }

@@ -38,3 +38,11 @@ query::set_string(const std::string& query) {
 		throw new internal_exception();
 	}
 }
+
+std::string
+query::get_string() {
+	if (d_query) {
+		return (d_query->string);
+	}
+	return "";
+}
