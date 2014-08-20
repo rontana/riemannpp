@@ -61,7 +61,7 @@ message::operator<<(query &q) {
 }
 
 bool
-message::get_ok() {
+message::get_ok() const {
 	if (d_message && d_message->has_ok) {
 		return (d_message->ok != 0);
 	} else {
@@ -70,7 +70,7 @@ message::get_ok() {
 }
 
 std::string
-message::get_error() {
+message::get_error() const {
 	if (d_message && d_message->error) {
 		return (d_message->error);
 	} else {
@@ -79,7 +79,7 @@ message::get_error() {
 }
 
 std::vector<event>
-message::get_events() {
+message::get_events() const {
 	std::vector<event> result;
 	if (d_message && d_message->n_events) {
 		for (size_t i = 0; i < d_message->n_events; ++i) {
@@ -90,7 +90,7 @@ message::get_events() {
 }
 
 query
-message::get_query() {
+message::get_query() const {
 	if (d_message && d_message->query) {
 		return query(d_message->query);
 	} else {

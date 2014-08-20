@@ -114,6 +114,13 @@ process_command_send(const bpo::variables_map& vm) {
 }
 
 void
+print_events(const rpp::message& msg) {
+	for (auto &e : msg.get_events()) {
+
+	}
+}
+
+void
 process_command_query(const bpo::variables_map& vm) {
 	rpp::client client;
 	client.connect(rpp::client_type::tcp, vm["rhost"].as<string>(), vm["rport"].as<int>());
@@ -133,6 +140,8 @@ process_command_query(const bpo::variables_map& vm) {
 		cerr << "Error when asking for a message receipt: " << strerror(errno) << endl;
 	} else if (!response->get_ok()) {
 		cerr << "Message receipt failed: " << response->get_error() << endl;
+	} else {
+		print_events(*response);
 	}
 }
 

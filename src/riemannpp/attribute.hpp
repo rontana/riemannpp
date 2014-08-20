@@ -30,9 +30,9 @@ namespace riemannpp {
 
 		void set_value(const std::string& value);
 
-		std::string get_key();
+		std::string get_key() const;
 
-		std::string get_value();
+		std::string get_value() const;
 
 		riemann_attribute_t* release() { return d_attribute.release(); }
 

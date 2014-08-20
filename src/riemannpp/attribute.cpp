@@ -56,7 +56,7 @@ attribute::set_value(const std::string& value) {
 }
 
 std::string
-attribute::get_key() {
+attribute::get_key() const {
 	if (d_attribute) {
 		return d_attribute->key;
 	}
@@ -64,7 +64,7 @@ attribute::get_key() {
 }
 
 std::string
-attribute::get_value() {
+attribute::get_value() const {
 	if (d_attribute) {
 		return d_attribute->value;
 	}

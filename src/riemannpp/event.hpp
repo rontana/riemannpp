@@ -56,24 +56,24 @@ namespace riemannpp {
 
 		event& operator<<(attribute&& a);
 
-		int64_t     get_time();
+		int64_t     get_time() const;
 
-		std::string get_state();
+		std::string get_state() const;
 
-		std::string get_service();
+		std::string get_service() const;
 
-		std::string get_host();
+		std::string get_host() const;
 
-		std::string get_description();
+		std::string get_description() const;
 
-		float       get_ttl();
+		float       get_ttl() const;
 
 		template<typename T>
-		T           get_metric();
+		T           get_metric() const;
 
-		std::vector<std::string> get_tags();
+		std::vector<std::string> get_tags() const;
 
-		std::vector<attribute> get_attributes();
+		std::vector<attribute> get_attributes() const;
 
 		void set_state(std::string val);
 
@@ -116,13 +116,13 @@ namespace riemannpp {
 	}
 
 	template<>
-	int64_t event::get_metric();
+	int64_t event::get_metric() const;
 
 	template<>
-	float event::get_metric();
+	float event::get_metric() const;
 
 	template<>
-	double event::get_metric();
+	double event::get_metric() const;
 
 	template<>
 	void event::set_metric(const int64_t val);

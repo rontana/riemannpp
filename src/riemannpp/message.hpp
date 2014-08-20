@@ -40,13 +40,13 @@ namespace riemannpp {
 
 		operator riemann_message_t*() const { return d_message.get(); }
 
-		bool get_ok();
+		bool get_ok() const;
 
-		std::string get_error();
+		std::string get_error() const;
 
-		std::vector<event> get_events();
+		std::vector<event> get_events() const;
 
-		query get_query();
+		query get_query() const;
 
 	private:
 		message(const message& m);

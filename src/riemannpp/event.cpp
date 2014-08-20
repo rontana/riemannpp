@@ -64,7 +64,7 @@ event::operator<<(attribute&& a) {
 }
 
 int64_t
-event::get_time() {
+event::get_time() const {
 	if (d_event) {
 		return (d_event->time);
 	}
@@ -72,7 +72,7 @@ event::get_time() {
 }
 
 std::string
-event::get_state() {
+event::get_state() const {
 	if (d_event && d_event->state) {
 		return (d_event->state);
 	}
@@ -80,7 +80,7 @@ event::get_state() {
 }
 
 std::string
-event::get_service() {
+event::get_service() const {
 	if (d_event && d_event->service) {
 		return (d_event->service);
 	}
@@ -88,7 +88,7 @@ event::get_service() {
 }
 
 std::string
-event::get_host() {
+event::get_host() const {
 	if (d_event && d_event->host) {
 		return (d_event->host);
 	}
@@ -96,7 +96,7 @@ event::get_host() {
 }
 
 std::string
-event::get_description() {
+event::get_description() const {
 	if (d_event && d_event->description) {
 		return (d_event->description);
 	}
@@ -104,7 +104,7 @@ event::get_description() {
 }
 
 float
-event::get_ttl() {
+event::get_ttl() const {
 	if (d_event && d_event->has_ttl) {
 		return (d_event->ttl);
 	}
@@ -112,7 +112,7 @@ event::get_ttl() {
 }
 
 template<>
-int64_t event::get_metric() {
+int64_t event::get_metric() const {
 	if (d_event && d_event->has_metric_sint64) {
 		return (d_event->metric_sint64);
 	}
@@ -120,7 +120,7 @@ int64_t event::get_metric() {
 }
 
 template<>
-float event::get_metric() {
+float event::get_metric() const {
 	if (d_event && d_event->has_metric_f) {
 		return (d_event->metric_f);
 	}
@@ -128,7 +128,7 @@ float event::get_metric() {
 }
 
 template<>
-double event::get_metric() {
+double event::get_metric() const {
 	if (d_event && d_event->has_metric_d) {
 		return (d_event->metric_d);
 	}
@@ -136,7 +136,7 @@ double event::get_metric() {
 }
 
 std::vector<std::string>
-event::get_tags() {
+event::get_tags() const {
 	std::vector<std::string> result;
 	if (d_event && d_event->n_tags) {
 		for (size_t i = 0; i < d_event->n_tags; ++i) {
@@ -147,7 +147,7 @@ event::get_tags() {
 }
 
 std::vector<attribute>
-event::get_attributes() {
+event::get_attributes() const {
 	std::vector<attribute> result;
 	if (d_event && d_event->n_attributes) {
 		for (size_t i = 0; i < d_event->n_attributes; ++i) {

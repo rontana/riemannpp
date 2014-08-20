@@ -40,7 +40,7 @@ query::set_string(const std::string& query) {
 }
 
 std::string
-query::get_string() {
+query::get_string() const {
 	if (d_query) {
 		return (d_query->string);
 	}
