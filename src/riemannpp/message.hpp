@@ -35,70 +35,80 @@
 
 namespace riemannpp {
 
-	// 
+	// Riemann messages are used to send events and queries to a Riemann server.
+	// The message class can contain zero or one query, and zero or more events.
 	class message {
 		std::unique_ptr<riemann_message_t> d_message;
 
 	public:
 		// CONSTRUCTORS
 
-		// 
+		// Default constructor
 		message();
 
-		// 
+		// Constructor. Create a message object with an existing riemann_message_t
+		// instance pointer. After this call, the object will assume ownership
+		// of the pointer `m`.
 		message(riemann_message_t* m);
 
-		// 
+		// Move constructor.
 		message(message&& m);
 
-		// 
+		// Constructor. Create a message with an existing event.
+		message(event& e);
+
+		// Constructor. Create a message with an existing query.
 		message(query& q);
 
-		// 
+		// Destructor.
 		~message();
 
-		// 
+		// Move assignment operator.
 		message& operator=(message&& m);
 
 		// MANIPULATORS
 
-		// 
+		// Set an event.
 		void set_event(event& e);
 
-		// 
+		// Stream operator set an event.
 		message& operator<<(event &e);
 
-		// 
+		// Set the query.
 		void set_query(query& q);
 
-		// 
+		// Stream operator set the query.
 		message& operator<<(query &q);
 
-		// 
+		// Get the ok.
 		bool get_ok() const;
 
-		// 
+		// Get the error.
 		std::string get_error() const;
 
-		// 
+		// Get the events.
 		std::vector<event> get_events() const;
 
-		// 
+		// Get the query.
 		query get_query() const;
 
-		// 
+		// Convert this object to a string.
 		std::string to_str() const;
 
-		// 
+		// Release the riemmann_message_t pointer. Use this function to
+		// transfer ownership of the encapsulated pointer. After this call the
+		// object will no longer own the pointer, and subsequent calls will
+		// return a nullptr.
 		riemann_message_t* release() { return d_message.release(); }
 
-		// 
+		// Cast to riemmann_message_t* operator. Use this method to get a
+		// handle to the raw pointer.
 		operator riemann_message_t*() const { return d_message.get(); }
 
 	private:
 		// NOT IMPLEMENTED
-		message(const message& m);
-		message& operator=(const message& m);
+		message(const message& m) = delete;
+		message& operator=(const message& m) = delete;
 	};
 
 }

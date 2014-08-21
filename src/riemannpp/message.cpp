@@ -39,6 +39,11 @@ message::message(message&& m) {
 	*this = std::move(m);
 }
 
+message::message(event& e) {
+	d_message.reset(riemann_message_new());
+	set_event(e);
+}
+
 message::message(query& q) {
 	d_message.reset(riemann_message_new());
 	set_query(q);
@@ -127,17 +132,21 @@ message::to_str() const {
 	std::stringstream ss;
 	if (d_message) {
 		if (d_message->has_ok) {
-			ss << "ok = " << d_message->ok << std::endl;
+			ss << "ok = " << (d_message->ok == 1) << std::endl;
 		}
 		if (d_message->error) {
 			ss << "error = " << d_message->error << std::endl;
 		}
 		if (d_message->query) {
-			ss << "query = " << query(d_message->query).to_str() << std::endl;
+			query q(d_message->query);
+			ss << "query = " << q.to_str() << std::endl;
+			q.release();
 		}
 		for (size_t i = 0; i < d_message->n_events; ++i) {
+			event e(d_message->events[i]);
 			ss << "event #" << i << ":" << std::endl;
-			ss << event(d_message->events[i]).to_str() << std::endl;
+			ss << e.to_str() << std::endl << std::endl;
+			e.release();
 		}
 	}
 	return (ss.str());

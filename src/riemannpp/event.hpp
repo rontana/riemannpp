@@ -35,7 +35,7 @@
 
 namespace riemannpp {
 
-	// 
+	// The event_field enum is used to specify event attributes.
 	enum class event_field {
 		none        = RIEMANN_EVENT_FIELD_NONE,
 		time        = RIEMANN_EVENT_FIELD_TIME,
@@ -51,25 +51,29 @@ namespace riemannpp {
 		metricf     = RIEMANN_EVENT_FIELD_METRIC_F
 	};
 
-	// 
+	// The event class encapsulates a Riemann event. Events can contain zero or
+	// more tags and attributes.
 	class event {
 		std::unique_ptr<riemann_event_t> d_event;
 
 	public:
 		// CONSTRUCTORS
 
-		// 
+		// Default constructor.
 		event();
 
-		// 
+		// Constructor. Create a event object with an existing riemann_event_t
+		// instance pointer. After this call, the object will assume ownership
+		// of the pointer `e`.
 		event(riemann_event_t* e);
 
-		// 
+		// Move constructor.
 		event(event&& e);
 
-		// 
+		// Destructor.
 		~event();
 
+		// Move assignment operator.
 		event& operator=(event&& e);
 
 		// MANIPULATORS
@@ -156,8 +160,8 @@ namespace riemannpp {
 
 	private:
 		// NOT IMPLEMENTED
-		event(const event& e);
-		event& operator=(const event& e);
+		event(const event& e) = delete;
+		event& operator=(const event& e) = delete;
 	};
 
 	// INLINE FUNCTION DEFINITIONS

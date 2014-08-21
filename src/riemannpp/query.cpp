@@ -28,7 +28,7 @@
 using namespace riemannpp;
 
 query::query()
-	: d_query(nullptr)
+	: d_query(riemann_query_new(nullptr))
 {}
 
 query::query(riemann_query_t* q)
@@ -58,7 +58,7 @@ query::operator=(query&& q) {
 void 
 query::set_string(const std::string& query) {
 	int result = riemann_query_set_string(d_query.get(), query.c_str());
-	if (-1 == result) {
+	if (0 != result) {
 		throw internal_exception();
 	}
 }

@@ -77,38 +77,59 @@ client::disconnect() {
 }
 
 void 
-client::send_message(message& m) {
+client::send(message& m) {
 	int result = riemann_client_send_message(d_client, m.release());
 	if (0 != result) {
 		throw internal_exception();
 	}
 }
 
-void 
-client::send_message_oneshot(message& m) {
+void
+client::send(event& e) {
+	message m(e);
+	send(m);
+}
+
+void client::send(query& q) {
+	message m(q);
+	send(m);
+}
+
+void
+client::send_oneshot(message& m) {
 	int result = riemann_client_send_message_oneshot(d_client, m.release());
 	if (0 != result) {
 		throw internal_exception();
 	}
 }
 
+void
+client::send_oneshot(event& e) {
+	message m(e);
+	send_oneshot(m);
+}
+
+void
+client::send_oneshot(query& q) {
+	message m(q);
+	send_oneshot(m);
+}
+
 client&
-client::operator<<(message &m) {
-	send_message(m);
+client::operator<<(message& m) {
+	send(m);
 	return (*this);
 }
 
 client&
-client::operator<<(event &e) {
-	message m;
-	send_message(m << e);
+client::operator<<(event& e) {
+	send(e);
 	return (*this);
 }
 
 client&
-client::operator<<(query &q) {
-	message m;
-	send_message(m << q);
+client::operator<<(query& q) {
+	send(q);
 	return (*this);
 }
 

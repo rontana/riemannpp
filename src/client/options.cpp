@@ -150,7 +150,7 @@ process_command_query(const bpo::variables_map& vm) {
 	if (vm.count("query")) {
 		query.set_string(vm["query"].as<string>());
 	}
-	client << query;
+	client.send_oneshot(query);
 
 #if HAVE_JSON
 	if (vm.count("json")) {
@@ -158,15 +158,17 @@ process_command_query(const bpo::variables_map& vm) {
 	}
 #endif
 
-	std::unique_ptr<rpp::message> response;
-	client >> response;
+	std::unique_ptr<rpp::message> response(client.recv());
 
 	if (!(riemann_message_t*)(*response)) {
 		cerr << "Error when asking for a message receipt: " << strerror(errno) << endl;
 	} else if (!response->get_ok()) {
 		cerr << "Message receipt failed: " << response->get_error() << endl;
 	} else {
-		cout << *response;
+		cout << response->to_str();
+
+		riemann_message_t* m = response->release();
+		riemann_message_free(m);
 	}
 }
 

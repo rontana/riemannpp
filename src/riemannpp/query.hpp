@@ -84,8 +84,8 @@ namespace riemannpp {
 
 	private:
 		// NOT IMPLEMENTED
-		query(const query& q);
-		query& operator=(const query& q);
+		query(const query& q) = delete;
+		query& operator=(const query& q) = delete;
 	};
 
 }

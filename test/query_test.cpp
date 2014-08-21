@@ -29,7 +29,7 @@ namespace riemann = riemannpp;
 TEST_CASE("queries can be created and set", "[query]") {
 	SECTION("default constructor") {
 		riemann::query q;
-		REQUIRE((riemann_query_t*)q == nullptr);
+		REQUIRE((riemann_query_t*)q != nullptr);
 	}
 	SECTION("move constructor") {
 		riemann::query q1("query");

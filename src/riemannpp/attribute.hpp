@@ -97,8 +97,8 @@ namespace riemannpp {
 
 	private:
 		// NOT IMPLEMENTED
-		attribute(const attribute& a);
-		attribute& operator=(const attribute& a);
+		attribute(const attribute& a) = delete;
+		attribute& operator=(const attribute& a) = delete;
 	};
 
 }
