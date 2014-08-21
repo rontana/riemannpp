@@ -30,39 +30,67 @@
 
 namespace riemannpp {
 
+	// Riemann queries are used to fetch events from the server that match a
+	// query string.
 	class query {
 		std::unique_ptr<riemann_query_t> d_query;
 
 	public:
+		// CONSTRUCTORS
+		
+		// Default constructor.
 		query();
 
+		// Constructor. Create a query object with an existing riemann_query_t
+		// instance pointer. After this call, the object will assume ownership
+		// of the pointer `q`.
 		query(riemann_query_t* q);
 
+		// Move constructor.
 		query(query&& q);
 
+		// Constructor.
 		query(const std::string& query);
 
+		// Destructor. The destructor will free the underlying riemann_query_t
+		// pointer if necessary. If the pointer has not yet been transferred
+		// via a call to release, or if the object has not yet been allocated
+		// then the destructor will do nothing.
 		~query();
 
+		// Move assignment operator.
 		query& operator=(query&& q);
 
+		// MANIPULATORS
+
+		// Set the query string.
 		void set_string(const std::string& query);
 
+		// Get the query string.
 		std::string get_string() const;
 
+		// Convert this object to a string.
 		std::string to_str() const;
 
+		// Release the riemann_query_t pointer. Use this function to transfer
+		// ownership of the encapsulated pointer. After this call the object
+		// will no longer own the pointer, and subsequent calls to will return
+		// a nullptr.
 		riemann_query_t* release() { return d_query.release(); }
 
+		// Cast to riemann_query_t* operator. Use this method to get a handle
+		// to the raw pointer.
 		operator riemann_query_t*() const { return d_query.get(); }
 
 	private:
+		// NOT IMPLEMENTED
 		query(const query& q);
-
 		query& operator=(const query& q);
 	};
 
 }
+
+// STREAM OPERATOR
 
 std::ostream & operator<<(std::ostream &os, const riemannpp::query& q);
 

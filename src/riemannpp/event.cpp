@@ -54,7 +54,9 @@ event::operator=(event&& e) {
 
 template<>
 void event::set(const event_field field, const std::string& value) {
-	int result = riemann_event_set(d_event.get(), field, value.c_str(), RIEMANN_EVENT_FIELD_NONE);
+	int result = riemann_event_set(d_event.get(), field, value.c_str(), 
+		RIEMANN_EVENT_FIELD_NONE
+	);
 	if (-1 == result) {
 		throw internal_exception();
 	}
@@ -223,7 +225,8 @@ event::to_str() const {
 	if (d_event) {
 		if (d_event->has_time != 0) {
 			time_t t = d_event->time;
-			ss << "time = " << d_event->time << " - " << std::ctime(&t) << std::endl;
+			ss << "time = " << d_event->time << " - " << std::ctime(&t) 
+				<< std::endl;
 		}
 		ss << "state = " << d_event->state << std::endl;
 		ss << "service = " << d_event->service << std::endl;
@@ -248,7 +251,8 @@ event::to_str() const {
 		ss << "]" << std::endl;
 		ss << "attributes = { " << std::endl;
 		for (size_t i = 0; i < d_event->n_attributes; ++i) {
-			ss << "  " << d_event->attributes[i]->key << " = " << d_event->attributes[i]->value << std::endl;
+			ss << "  " << d_event->attributes[i]->key << " = " 
+			<< d_event->attributes[i]->value << std::endl;
 		}
 		ss << "}" << std::endl;
 	}

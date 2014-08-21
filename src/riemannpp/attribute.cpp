@@ -57,7 +57,8 @@ attribute::operator=(attribute&& a) {
 
 void 
 attribute::set(const std::string& key, const std::string& value) {
-	int result = riemann_attribute_set(d_attribute.get(), key.c_str(), value.c_str());
+	int result = riemann_attribute_set(d_attribute.get(), 
+		key.c_str(), value.c_str());
 	if (-1 == result) {
 		throw internal_exception();
 	}

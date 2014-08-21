@@ -35,6 +35,7 @@
 
 namespace riemannpp {
 
+	// 
 	enum class event_field {
 		none        = RIEMANN_EVENT_FIELD_NONE,
 		time        = RIEMANN_EVENT_FIELD_TIME,
@@ -50,77 +51,116 @@ namespace riemannpp {
 		metricf     = RIEMANN_EVENT_FIELD_METRIC_F
 	};
 
+	// 
 	class event {
 		std::unique_ptr<riemann_event_t> d_event;
 
 	public:
+		// CONSTRUCTORS
+
+		// 
 		event();
 
+		// 
 		event(riemann_event_t* e);
 
+		// 
 		event(event&& e);
 
+		// 
 		~event();
 
 		event& operator=(event&& e);
 
+		// MANIPULATORS
+
+		// Set a property.
 		template<typename T>
 		void set(const event_field field, const T& value);
 
+		// Stream operator to set a property.
 		template<typename T>
 		event& operator<<(std::tuple<event_field, T> f);
 
+		// Add a tag.
 		void tag_add(const std::string& tag);
 
+		// Stream operator to add a tag.
 		event& operator<<(std::string t);
 
+		// Add an attribute.
 		void attribute_add(attribute&& a);
 
+		// Stream operator to add an attribute.
 		event& operator<<(attribute&& a);
 
+		// Get the time.
 		int64_t     get_time() const;
 
+		// Get the state.
 		std::string get_state() const;
 
+		// Get the service.
 		std::string get_service() const;
 
+		// Get the host.
 		std::string get_host() const;
 
+		// Get the description.
 		std::string get_description() const;
 
+		// Get the ttl.
 		float       get_ttl() const;
 
+		// Get the metric.
 		template<typename T>
 		T           get_metric() const;
 
+		// Get the tags.
 		std::vector<std::string> get_tags() const;
 
+		// Get the attributes.
 		std::vector<attribute> get_attributes() const;
 
+		// Set the state.
 		void set_state(std::string val);
 
+		// Set the service.
 		void set_service(std::string val);
 
+		// Set the host.
 		void set_host(std::string val);
 
+		// Set the description.
 		void set_description(std::string val);
 
+		// Set the ttl.
 		void set_ttl(float val);
 
+		// Set the metric.
 		template<typename T>
 		void set_metric(const T val);
 
+		// Convert this object to a string.
 		std::string to_str() const;
 
+		// Release the riemann_event_t pointer. Use this function to
+		// transfer ownership of the encapsulated pointer. After this call the
+		// object will no longer own the pointer, and subsequent calls will
+		// return a nullptr.
 		riemann_event_t* release() { return d_event.release(); }
 
+		// Cast to riemann_event_t* operator. Use this method to get a
+		// handle to the raw pointer.
 		operator riemann_event_t*() const { return d_event.get(); }
 
 	private:
+		// NOT IMPLEMENTED
 		event(const event& e);
-
 		event& operator=(const event& e);
 	};
+
+	// INLINE FUNCTION DEFINITIONS
 
 	template<typename T>
 	void event::set(const event_field field, const T& value) {
@@ -158,6 +198,8 @@ namespace riemannpp {
 	void event::set_metric(const double val);
 
 }
+
+// STREAM OPERATOR
 
 std::ostream & operator<<(std::ostream &os, const riemannpp::event& e);
 

@@ -33,30 +33,46 @@
 
 namespace riemannpp {
 
+	// The base exception class for all riemannpp exceptions.
 	class exception : public std::runtime_error {
 	public:
+		// Construct an exception with the given message.
 		exception(std::string const& message)
 			: std::runtime_error(message) {}
 	};
 
+	// The internal_exception class encapsulates errors caused by calls to
+	// the riemann client library that return an error code. These errors are
+	// identified by their errorcode given by errno, and their associated
+	// reason string deduced by strerror.
 	class internal_exception : public exception {
 		int         d_error;
 		std::string d_reason;
 	public:
+		// Default constructor. Will construct the base exception class with
+		// the string error deduced by strerror, and store errno.
 		internal_exception()
 			: exception(strerror(errno))
 			, d_error(errno)
 			, d_reason(strerror(errno)) {}
 
+		// Construct an internal exception with the given reason. Behaves the
+		// same as the default constructor, with the exception being that the
+		// reason string is overridden by the given parameter.
 		internal_exception(const std::string& reason)
 			: exception(strerror(errno))
 			, d_error(errno)
 			, d_reason(reason) {}
 
+		// Destructor.
 		~internal_exception() throw() {}
 
+		// MANIPULATORS
+
+		// Get the error code associated with this exception.
 		int error() const { return d_error; }
 
+		// Get the reason string describing this exception.
 		std::string const& reason() const { return d_reason; }
 	};
 

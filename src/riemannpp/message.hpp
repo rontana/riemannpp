@@ -35,51 +35,75 @@
 
 namespace riemannpp {
 
+	// 
 	class message {
 		std::unique_ptr<riemann_message_t> d_message;
 
 	public:
+		// CONSTRUCTORS
+
+		// 
 		message();
 
+		// 
 		message(riemann_message_t* m);
 
+		// 
 		message(message&& m);
 
+		// 
 		message(query& q);
 
+		// 
 		~message();
 
+		// 
 		message& operator=(message&& m);
 
+		// MANIPULATORS
+
+		// 
 		void set_event(event& e);
 
+		// 
 		message& operator<<(event &e);
 
+		// 
 		void set_query(query& q);
 
+		// 
 		message& operator<<(query &q);
 
+		// 
 		bool get_ok() const;
 
+		// 
 		std::string get_error() const;
 
+		// 
 		std::vector<event> get_events() const;
 
+		// 
 		query get_query() const;
 
+		// 
 		std::string to_str() const;
 
+		// 
 		riemann_message_t* release() { return d_message.release(); }
 
+		// 
 		operator riemann_message_t*() const { return d_message.get(); }
 
 	private:
+		// NOT IMPLEMENTED
 		message(const message& m);
-
 		message& operator=(const message& m);
 	};
 
 }
+
+// STREAM OPERATOR
 
 std::ostream& operator<<(std::ostream &os, const riemannpp::message& m);
 

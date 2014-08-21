@@ -32,51 +32,80 @@
 
 namespace riemannpp {
 
+	// The client_type enum is used by the client class to specify parameters
+	// for connecting to the Riemann server.
 	enum class client_type {
 		none = RIEMANN_CLIENT_NONE,
 		tcp  = RIEMANN_CLIENT_TCP,
 		udp  = RIEMANN_CLIENT_UDP
 	};
 
+	// This class represents a connection to the Riemann server, and provides
+	// the interface for connecting, disconnecting, sending and receiving
+	// messages and queries.
 	class client {
 		riemann_client_t* d_client;
 
 	public:
+		// CONSTRUCTORS
+
+		// Default constructor.
 		client();
 
+		// Constructor. Create a client object with an existing riemann_client_t
+		// instance pointer. After this call, the object will assume ownership
+		// of the pointer `c`.
 		client(riemann_client_t* c);
 
+		// Move constructor.
 		client(client&& c);
 
+		// Constructor. Create a client object and connect with the given
+		// parameters.
 		client(client_type type, const std::string& host, int port);
 
+		// Destructor.
 		~client();
 
+		// Move assignment operator.
 		client& operator=(client&& c);
 
+		// MANIPULATORS
+
+		// Connect to a server with the given parameters.
 		void connect(client_type type, const std::string& host, int port);
 
+		// Disconnect from a server.
 		void disconnect();
 
+		// Send a message.
 		void send_message(message& m);
 
+		// Send a message.
 		void send_message_oneshot(message& m);
 
+		// Stream operator to send a message.
 		client& operator<<(message &m);
 
+		// Stream operator to send an event.
 		client& operator<<(event &e);
 
+		// Stream operator to send a query.
 		client& operator<<(query &q);
 
+		// Receive a message.
 		std::unique_ptr<message> recv();
 
+		// Stream operator to receive a message.
 		client& operator>>(std::unique_ptr<message> &m);
 
+		// Cast to riemann_client_t* operator. Use this method to get a handle
+		// to the raw pointer.
 		operator riemann_client_t*() const { return d_client; }
 
 	private:
+		// NOT IMPLEMENTED
 		client(const client& c);
-
 		client& operator=(const client& c);
 	};
 

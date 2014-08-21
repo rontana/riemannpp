@@ -38,7 +38,8 @@ client::client(client&& c) {
 }
 
 client::client(client_type type, const std::string& host, int port) {
-	d_client = riemann_client_create(riemann_client_type_t(type), host.c_str(), port);
+	d_client = riemann_client_create(riemann_client_type_t(type), 
+		host.c_str(), port);
 	if (!d_client) {
 		throw internal_exception();
 	}
@@ -60,7 +61,8 @@ client::operator=(client&& c) {
 
 void 
 client::connect(client_type type, const std::string& host, int port) {
-	int result = riemann_client_connect(d_client, riemann_client_type_t(type), host.c_str(), port);
+	int result = riemann_client_connect(d_client, riemann_client_type_t(type), 
+		host.c_str(), port);
 	if (0 != result) {
 		throw internal_exception();
 	}
@@ -112,7 +114,9 @@ client::operator<<(query &q) {
 
 std::unique_ptr<message>
 client::recv() {
-	return std::unique_ptr<message>(new message(riemann_client_recv_message(d_client)));
+	return std::unique_ptr<message>(new message(
+		riemann_client_recv_message(d_client)
+	));
 }
 
 client&
