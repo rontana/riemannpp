@@ -28,7 +28,7 @@ send_options()
 		( "metric-sint64,i", bpo::value<int64_t>(), "Set the 64-bit integer metric of the event." )
 		( "metric-d,d",      bpo::value<double>(),  "Set the double metric of the event." )
 		( "metric-f,f",      bpo::value<float>(),   "Set the float metric of the event." )
-		( "ttl,L",           bpo::value<int>(),     "Set the TTL of the event." )
+		( "ttl,L",           bpo::value<float>(),   "Set the TTL of the event." )
 		( "tcp,T",           bpo::value<bool>()->default_value(true), "Send the message over TCP (default)." )
 		( "udp,U",           bpo::value<bool>(),    "Send the message over UDP." )
 		;
@@ -71,39 +71,39 @@ process_command_send(const bpo::variables_map& vm) {
 
 	rpp::event event;
 	if (vm.count("state")) {
-		event << make_tuple(rpp::event_field::state, vm["state"].as<string>());
+		event.set_state(vm["state"].as<string>());
 	}
 	if (vm.count("service")) {
-		event << make_tuple(rpp::event_field::service, vm["service"].as<string>());
+		event.set_state(vm["service"].as<string>());
 	}
 	if (vm.count("host")) {
-		event << make_tuple(rpp::event_field::host, vm["host"].as<string>());
+		event.set_state(vm["host"].as<string>());
 	}
 	if (vm.count("description")) {
-		event << make_tuple(rpp::event_field::description, vm["description"].as<string>());
+		event.set_description(vm["description"].as<string>());
 	}
 	if (vm.count("attribute")) {
 		string tmp = vm["attribute"].as<string>();
 		if (size_t it = tmp.find('=') != string::npos) {
-			event << rpp::attribute(tmp.substr(0, (it+2)), tmp.substr(it+3));
+			event.attribute_add(rpp::attribute(tmp.substr(0, (it+2)), tmp.substr(it+3)));
 		} else {
-			event << rpp::attribute(tmp, "");
+			event.attribute_add(rpp::attribute(tmp, ""));
 		}
 	}
 	if (vm.count("tag")) {
-		event << vm["tag"].as<string>();
+		event.tag_add(vm["tag"].as<string>());
 	}
 	if (vm.count("metric-sint64")) {
-		event << make_tuple(rpp::event_field::metrics64, vm["metric-sint64"].as<int64_t>());
+		event.set_metric(vm["metric-sint64"].as<int64_t>());
 	}
 	if (vm.count("metric-dbl")) {
-		event << make_tuple(rpp::event_field::metricd, vm["metric-dbl"].as<double>());
+		event.set_metric(vm["metric-dbl"].as<double>());
 	}
 	if (vm.count("metric-flt")) {
-		event << make_tuple(rpp::event_field::metricf, vm["metric-flt"].as<float>());
+		event.set_metric(vm["metric-flt"].as<float>());
 	}
 	if (vm.count("ttl")) {
-		event << make_tuple(rpp::event_field::ttl, vm["ttl"].as<float>());
+		event.set_ttl(vm["ttl"].as<float>());
 	}
 	client << event;
 
@@ -114,6 +114,8 @@ process_command_send(const bpo::variables_map& vm) {
 		cerr << "Error when asking for a message receipt: " << strerror(errno) << endl;
 	} else if (!response->get_ok()) {
 		cerr << "Message receipt failed: " << response->get_error() << endl;
+	} else {
+		cout << *response;
 	}
 }
 
@@ -142,7 +144,7 @@ process_command_query(const bpo::variables_map& vm) {
 	} else if (!response->get_ok()) {
 		cerr << "Message receipt failed: " << response->get_error() << endl;
 	} else {
-		cout << *response << endl;
+		cout << *response;
 	}
 }
 
@@ -200,6 +202,9 @@ process_command_line(int argc, char const* argv[]) {
 		}
 	} catch (rpp::internal_exception &e) {
 		cerr << "Error: " << e.error() << " - " << e.reason() << "." << endl;
+		ops.show_usage = true;
+	} catch (std::exception &e) {
+		cerr << "Error: " << e.what() << endl;
 		ops.show_usage = true;
 	} catch (...) {
 		cerr << "Unknown error." << endl;

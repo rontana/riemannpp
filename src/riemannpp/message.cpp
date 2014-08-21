@@ -107,8 +107,12 @@ message::to_str() const {
 		if (d_message->has_ok) {
 			ss << "ok = " << d_message->ok << std::endl;
 		}
-		ss << "error = " << d_message->error << std::endl;
-		ss << "query = " << query(d_message->query).to_str() << std::endl;
+		if (d_message->error) {
+			ss << "error = " << d_message->error << std::endl;
+		}
+		if (d_message->query) {
+			ss << "query = " << query(d_message->query).to_str() << std::endl;
+		}
 		for (size_t i = 0; i < d_message->n_events; ++i) {
 			ss << "event #" << i << ":" << std::endl;
 			ss << event(d_message->events[i]).to_str() << std::endl;

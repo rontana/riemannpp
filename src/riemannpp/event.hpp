@@ -104,7 +104,7 @@ namespace riemannpp {
 	void event::set(const event_field field, const T& value) {
 		int result = riemann_event_set(d_event.get(), field, value, RIEMANN_EVENT_FIELD_NONE);
 		if (-1 == result) {
-			throw new internal_exception();
+			throw internal_exception();
 		}
 	}
 
