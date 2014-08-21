@@ -1,6 +1,8 @@
 #include "attribute.hpp"
 #include "exception.hpp"
 
+#include <sstream>
+
 using namespace riemannpp;
 
 attribute::attribute()
@@ -71,3 +73,15 @@ attribute::get_value() const {
 	return "";
 }
 
+std::string
+attribute::to_str() const {
+	std::stringstream ss;
+	if (d_attribute) {
+		ss << d_attribute->key << " = " << d_attribute->value << std::endl;
+	}
+	return (ss.str());
+}
+
+std::ostream & operator<<(std::ostream &os, const riemannpp::attribute& a) {
+    return os << a.to_str();
+}

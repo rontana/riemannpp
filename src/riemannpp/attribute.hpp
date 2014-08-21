@@ -34,6 +34,8 @@ namespace riemannpp {
 
 		std::string get_value() const;
 
+		std::string to_str() const;
+
 		riemann_attribute_t* release() { return d_attribute.release(); }
 
 		operator riemann_attribute_t*() const { return d_attribute.get(); }
@@ -45,5 +47,7 @@ namespace riemannpp {
 	};
 
 }
+
+std::ostream & operator<<(std::ostream &os, const riemannpp::attribute& a);
 
 #endif // RIEMANNPP_ATTRIBUTE_HPP

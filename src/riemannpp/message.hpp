@@ -6,6 +6,7 @@
 
 #include <riemann/riemann-client.h>
 
+#include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -36,10 +37,6 @@ namespace riemannpp {
 
 		message& operator<<(query &q);
 
-		riemann_message_t* release() { return d_message.release(); }
-
-		operator riemann_message_t*() const { return d_message.get(); }
-
 		bool get_ok() const;
 
 		std::string get_error() const;
@@ -48,6 +45,12 @@ namespace riemannpp {
 
 		query get_query() const;
 
+		std::string to_str() const;
+
+		riemann_message_t* release() { return d_message.release(); }
+
+		operator riemann_message_t*() const { return d_message.get(); }
+
 	private:
 		message(const message& m);
 
@@ -55,5 +58,7 @@ namespace riemannpp {
 	};
 
 }
+
+std::ostream& operator<<(std::ostream &os, const riemannpp::message& m);
 
 #endif // RIEMANNPP_MESSAGE_HPP

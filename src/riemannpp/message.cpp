@@ -1,6 +1,8 @@
 #include "message.hpp"
 #include "exception.hpp"
 
+#include <sstream>
+
 using namespace riemannpp;
 
 message::message()
@@ -96,4 +98,25 @@ message::get_query() const {
 	} else {
 		return query();
 	}
+}
+
+std::string
+message::to_str() const {
+	std::stringstream ss;
+	if (d_message) {
+		if (d_message->has_ok) {
+			ss << "ok = " << d_message->ok << std::endl;
+		}
+		ss << "error = " << d_message->error << std::endl;
+		ss << "query = " << query(d_message->query).to_str() << std::endl;
+		for (size_t i = 0; i < d_message->n_events; ++i) {
+			ss << "event #" << i << ":" << std::endl;
+			ss << event(d_message->events[i]).to_str() << std::endl;
+		}
+	}
+	return (ss.str());
+}
+
+std::ostream& operator<<(std::ostream &os, const riemannpp::message& m) {
+    return os << m.to_str();
 }

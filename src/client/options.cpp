@@ -12,6 +12,8 @@ namespace rpp = riemannpp;
 using namespace client;
 using namespace std;
 
+#define HAVE_JSON 0
+
 bpo::options_description 
 send_options()
 {
@@ -38,7 +40,9 @@ query_options() {
 	bpo::options_description options("Query Command Options");
 	options.add_options()
 		( "query,q", bpo::value<string>(), "Query to send to Riemann." )
+#if HAVE_JSON
 		( "json,j",  "Output the results as a JSON array." )
+#endif
 		;
 	return options;
 }
@@ -114,13 +118,6 @@ process_command_send(const bpo::variables_map& vm) {
 }
 
 void
-print_events(const rpp::message& msg) {
-	for (auto &e : msg.get_events()) {
-
-	}
-}
-
-void
 process_command_query(const bpo::variables_map& vm) {
 	rpp::client client;
 	client.connect(rpp::client_type::tcp, vm["rhost"].as<string>(), vm["rport"].as<int>());
@@ -131,7 +128,11 @@ process_command_query(const bpo::variables_map& vm) {
 	}
 	client << query;
 
-	// ops.result_json = (vm.count("json") > 0);
+#if HAVE_JSON
+	if (vm.count("json")) {
+
+	}
+#endif
 
 	std::unique_ptr<rpp::message> response;
 	client >> response;
@@ -141,7 +142,7 @@ process_command_query(const bpo::variables_map& vm) {
 	} else if (!response->get_ok()) {
 		cerr << "Message receipt failed: " << response->get_error() << endl;
 	} else {
-		print_events(*response);
+		cout << *response << endl;
 	}
 }
 

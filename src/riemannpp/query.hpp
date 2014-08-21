@@ -28,6 +28,8 @@ namespace riemannpp {
 
 		std::string get_string() const;
 
+		std::string to_str() const;
+
 		riemann_query_t* release() { return d_query.release(); }
 
 		operator riemann_query_t*() const { return d_query.get(); }
@@ -39,5 +41,7 @@ namespace riemannpp {
 	};
 
 }
+
+std::ostream & operator<<(std::ostream &os, const riemannpp::query& q);
 
 #endif // RIEMANNPP_QUERY_HPP

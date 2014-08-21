@@ -88,6 +88,8 @@ namespace riemannpp {
 		template<typename T>
 		void set_metric(const T val);
 
+		std::string to_str() const;
+
 		riemann_event_t* release() { return d_event.release(); }
 
 		operator riemann_event_t*() const { return d_event.get(); }
@@ -134,5 +136,7 @@ namespace riemannpp {
 	void event::set_metric(const double val);
 
 }
+
+std::ostream & operator<<(std::ostream &os, const riemannpp::event& e);
 
 #endif // RIEMANNPP_EVENT_HPP

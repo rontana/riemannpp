@@ -1,6 +1,9 @@
 #include "event.hpp"
 #include "exception.hpp"
 
+#include <ctime>
+#include <sstream>
+
 using namespace riemannpp;
 
 event::event()
@@ -190,4 +193,46 @@ void event::set_metric(const float val) {
 template<>
 void event::set_metric(const double val) {
 	set(event_field::metricd, val);
+}
+
+std::string
+event::to_str() const {
+	std::stringstream ss;
+	if (d_event) {
+		if (d_event->has_time != 0) {
+			time_t t = d_event->time;
+			ss << "time = " << d_event->time << " - " << std::ctime(&t) << std::endl;
+		}
+		ss << "state = " << d_event->state << std::endl;
+		ss << "service = " << d_event->service << std::endl;
+		ss << "host = " << d_event->host << std::endl;
+		ss << "description = " << d_event->description << std::endl;
+		if (d_event->has_ttl != 0) {
+			ss << "ttl = " << d_event->ttl << std::endl;
+		}
+		if (d_event->has_metric_sint64 != 0) {
+			ss << "ttl = " << d_event->metric_sint64 << std::endl;
+		}
+		if (d_event->has_metric_d != 0) {
+			ss << "ttl = " << d_event->metric_d << std::endl;
+		}
+		if (d_event->has_metric_f != 0) {
+			ss << "ttl = " << d_event->metric_f << std::endl;
+		}
+		ss << "tags = [ ";
+		for (size_t i = 0; i < d_event->n_tags; ++i) {
+			ss << d_event->tags[i] << " ";
+		}
+		ss << "]" << std::endl;
+		ss << "attributes = { " << std::endl;
+		for (size_t i = 0; i < d_event->n_attributes; ++i) {
+			ss << "  " << d_event->attributes[i]->key << " = " << d_event->attributes[i]->value << std::endl;
+		}
+		ss << "}" << std::endl;
+	}
+	return (ss.str());
+}
+
+std::ostream & operator<<(std::ostream &os, const riemannpp::event& e) {
+    return os << e.to_str();
 }

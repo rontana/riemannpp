@@ -1,6 +1,8 @@
 #include "query.hpp"
 #include "exception.hpp"
 
+#include <sstream>
+
 using namespace riemannpp;
 
 query::query()
@@ -45,4 +47,17 @@ query::get_string() const {
 		return (d_query->string);
 	}
 	return "";
+}
+
+std::string
+query::to_str() const {
+	std::stringstream ss;
+	if (d_query) {
+		ss << d_query->string << std::endl;
+	}
+	return (ss.str());
+}
+
+std::ostream & operator<<(std::ostream &os, const riemannpp::query& q) {
+    return os << q.to_str();
 }
