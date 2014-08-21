@@ -42,20 +42,52 @@ int main() {
 	try {
 		rpp::client client(rpp::client_type::tcp, "localhost", 5555);
 		
-		rpp::event snd_evt;
-		snd_evt << make_tuple(rpp::event_field::host,    "localhost")
-		        << make_tuple(rpp::event_field::service, "demo-client")
-		        << make_tuple(rpp::event_field::state,   "ok");
-		client << snd_evt;
-		
-		rpp::event rcv_evt;
-		client >> rcv_evt;
+		rpp::event e;
+		e << make_tuple(rpp::event_field::host,    "localhost")
+		  << make_tuple(rpp::event_field::service, "demo-client")
+		  << make_tuple(rpp::event_field::state,   "ok");
+		client << e;
 	} catch (rpp::internal_exception &e) {
 		std::cerr << "Error: " << e.error() << " - " << e.reason() << "." << std::endl;
 		exit (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
+```
+
+You can receive events in a similar way:
+
+```cpp
+std::unique_ptr<rpp::message> rcv;
+client >> rcv;
+
+// print all the events
+for (auto& e : rcv->get_events()) {
+	std::cout << e << std::endl;
+}
+```
+
+This can be useful if you want to run a query:
+
+```cpp
+rpp::query q("service = \"superdooper\"");
+client << q;
+```
+
+You can also send multiple events:
+
+```cpp
+rpp::message m;
+rpp::event e1;
+e1 << make_tuple(rpp::event_field::host,    "localhost")
+   << make_tuple(rpp::event_field::service, "demo-client-memory")
+   << make_tuple(rpp::event_field::state,   "critical");
+rpp::event e2;
+e2 << make_tuple(rpp::event_field::host,    "localhost")
+   << make_tuple(rpp::event_field::service, "demo-client-cpu")
+   << make_tuple(rpp::event_field::state,   "ok");
+m << e1 << e2;
+client << m;
 ```
 
 ## Contributing
