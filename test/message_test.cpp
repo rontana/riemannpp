@@ -37,6 +37,11 @@ TEST_CASE("messages can be created and set", "[message]") {
 		REQUIRE((riemann_message_t*)msg == nullptr);
 		REQUIRE((riemann_message_t*)msg2 != nullptr);
 	}
+	SECTION("construct with event") {
+//		riemann::event e;
+//		riemann::message msg(e);
+//		REQUIRE((riemann_message_t*)msg != nullptr);
+	}
 	SECTION("construct with query") {
 		riemann::query q("*");
 		riemann::message msg(q);
@@ -49,7 +54,7 @@ TEST_CASE("messages can be created and set", "[message]") {
 		REQUIRE((riemann_message_t*)msg2 != nullptr);
 	}
 	SECTION("set event") {
-//		riemann::event e();
+//		riemann::event e;
 //		riemann::message msg;
 //		msg.set_event(e);
 	}

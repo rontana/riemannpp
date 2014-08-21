@@ -65,26 +65,26 @@ void
 message::set_event(event& e) {
 	riemann_event_t* evp = e.release();
 	int result = riemann_message_set_events_n(d_message.get(), 1, &evp);
-	if (-1 == result) {
+	if (0 != result) {
 		throw internal_exception();
 	}
 }
 
 message&
-message::operator<<(event &e) {
+message::operator<<(event& e) {
 	return (*this);
 }
 
 void
 message::set_query(query& q) {
 	int result = riemann_message_set_query(d_message.get(), q.release());
-	if (-1 == result) {
+	if (0 != result) {
 		throw internal_exception();
 	}
 }
 
 message&
-message::operator<<(query &q) {
+message::operator<<(query& q) {
 	set_query(q);
 	return (*this);
 }
