@@ -104,25 +104,25 @@ The HOST and PORT arguments are optional, and they default to
 Command can be either `send` or `query`.
 
 ### Send Command Options
-* -s [ --state ] arg         Set the state of the event.
-* -S [ --service ] arg       Set the service sending the event.
-* -h [ --host ] arg          Set the origin host of the event.
-* -D [ --description ] arg   Set the description of the event.
-* -a [ --attribute ] arg     Add a new attribute to the event.
-* -t [ --tag ] arg           Add a tag to the event.
-* -i [ --metric-sint64 ] arg Set the 64-bit integer metric of the event.
-* -d [ --metric-d ] arg      Set the double metric of the event.
-* -f [ --metric-f ] arg      Set the float metric of the event.
-* -L [ --ttl ] arg           Set the TTL of the event.
-* -T [ --tcp ] arg (=1)      Send the message over TCP (default).
-* -U [ --udp ] arg           Send the message over UDP.
+* `-s [ --state ] arg`         Set the state of the event.
+* `-S [ --service ] arg`       Set the service sending the event.
+* `-h [ --host ] arg`          Set the origin host of the event.
+* `-D [ --description ] arg`   Set the description of the event.
+* `-a [ --attribute ] arg`     Add a new attribute to the event.
+* `-t [ --tag ] arg`           Add a tag to the event.
+* `-i [ --metric-sint64 ] arg` Set the 64-bit integer metric of the event.
+* `-d [ --metric-d ] arg`      Set the double metric of the event.
+* `-f [ --metric-f ] arg`      Set the float metric of the event.
+* `-L [ --ttl ] arg`           Set the TTL of the event.
+* `-T [ --tcp ] arg (=1)`      Send the message over TCP (default).
+* `-U [ --udp ] arg`           Send the message over UDP.
 
 ### Query Command Options
-* -q [ --query ] arg    Query to send to Riemann.
+* `-q [ --query ] arg`    Query to send to Riemann.
 
 ### Miscellaneous Options
-* -V [ --version ]      Display version.
-* -? [ --help ]         Show this help page.
+* `-V [ --version ]`      Display version.
+* `-? [ --help ]`         Show this help page.
 
 ## Contributing
 
