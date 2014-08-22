@@ -49,16 +49,16 @@ namespace riemannpp {
 		// Constructor. Create a message object with an existing riemann_message_t
 		// instance pointer. After this call, the object will assume ownership
 		// of the pointer `m`.
-		message(riemann_message_t* m);
+		explicit message(riemann_message_t* m);
 
 		// Move constructor.
 		message(message&& m);
 
 		// Constructor. Create a message with an existing event.
-		message(event& e);
+		explicit message(event&& e);
 
 		// Constructor. Create a message with an existing query.
-		message(query& q);
+		explicit message(query&& q);
 
 		// Destructor.
 		~message();

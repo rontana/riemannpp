@@ -39,15 +39,13 @@ message::message(message&& m) {
 	*this = std::move(m);
 }
 
-message::message(event& e) {
-	d_message.reset(riemann_message_new());
-	set_event(e);
-}
+message::message(event&& e)
+	: d_message(riemann_message_create_with_events(e.release()))
+{}
 
-message::message(query& q) {
-	d_message.reset(riemann_message_new());
-	set_query(q);
-}
+message::message(query&& q)
+	: d_message(riemann_message_create_with_query(q.release()))
+{}
 
 message::~message() {
 	if (d_message) {

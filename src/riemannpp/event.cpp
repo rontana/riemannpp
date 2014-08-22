@@ -54,18 +54,13 @@ event::operator=(event&& e) {
 
 template<>
 void event::set(const event_field field, const std::string& value) {
-	int result = riemann_event_set(d_event.get(), field, value.c_str(), 
-		RIEMANN_EVENT_FIELD_NONE
-	);
-	if (-1 == result) {
-		throw internal_exception();
-	}
+	set(field, value.c_str());
 }
 
 void 
 event::tag_add(const std::string& tag) {
 	int result = riemann_event_tag_add(d_event.get(), tag.c_str());
-	if (-1 == result) {
+	if (0 != result) {
 		throw internal_exception();
 	}
 }
@@ -79,7 +74,7 @@ event::operator<<(std::string t) {
 void 
 event::attribute_add(attribute&& a) {
 	int result = riemann_event_attribute_add(d_event.get(), a.release());
-	if (-1 == result) {
+	if (0 != result) {
 		throw internal_exception();
 	}
 }

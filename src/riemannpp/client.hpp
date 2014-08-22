@@ -79,31 +79,31 @@ namespace riemannpp {
 		void disconnect();
 
 		// Send a message.
-		void send(message& m);
+		void send(message&& m);
 
 		// Send an event.
-		void send(event& e);
+		void send(event&& e);
 
 		// Send a query.
-		void send(query& q);
+		void send(query&& q);
 
 		// Send a message.
-		void send_oneshot(message& m);
+		void send_oneshot(message&& m);
 
 		// Send an event.
-		void send_oneshot(event& e);
+		void send_oneshot(event&& e);
 
 		// Send a query.
-		void send_oneshot(query& q);
+		void send_oneshot(query&& q);
 
 		// Stream operator to send a message.
-		client& operator<<(message& m);
+		client& operator<<(message&& m);
 
 		// Stream operator to send an event.
-		client& operator<<(event& e);
+		client& operator<<(event&& e);
 
 		// Stream operator to send a query.
-		client& operator<<(query& q);
+		client& operator<<(query&& q);
 
 		// Receive a message.
 		std::unique_ptr<message> recv();

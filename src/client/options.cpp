@@ -88,46 +88,48 @@ process_command_send(const bpo::variables_map& vm) {
 		type = (vm["udp"].as<bool>()) ? rpp::client_type::udp : rpp::client_type::tcp;
 	}
 
-	rpp::client client;
-	client.connect(type, vm["rhost"].as<string>(), vm["rport"].as<int>());
+	rpp::event e;
+	e << "riemannpp-client" << "example:send-events";
+	e.attribute_add(rpp::attribute("x-client", "riemannpp"));
 
-	rpp::event event;
 	if (vm.count("state")) {
-		event.set_state(vm["state"].as<string>());
+		e.set_state(vm["state"].as<string>());
 	}
 	if (vm.count("service")) {
-		event.set_state(vm["service"].as<string>());
+		e.set_state(vm["service"].as<string>());
 	}
 	if (vm.count("host")) {
-		event.set_state(vm["host"].as<string>());
+		e.set_state(vm["host"].as<string>());
 	}
 	if (vm.count("description")) {
-		event.set_description(vm["description"].as<string>());
+		e.set_description(vm["description"].as<string>());
 	}
 	if (vm.count("attribute")) {
 		string tmp = vm["attribute"].as<string>();
 		if (size_t it = tmp.find('=') != string::npos) {
-			event.attribute_add(rpp::attribute(tmp.substr(0, (it+2)), tmp.substr(it+3)));
+			e.attribute_add(rpp::attribute(tmp.substr(0, (it+2)), tmp.substr(it+3)));
 		} else {
-			event.attribute_add(rpp::attribute(tmp, ""));
+			e.attribute_add(rpp::attribute(tmp, ""));
 		}
 	}
 	if (vm.count("tag")) {
-		event.tag_add(vm["tag"].as<string>());
+		e.tag_add(vm["tag"].as<string>());
 	}
 	if (vm.count("metric-sint64")) {
-		event.set_metric(vm["metric-sint64"].as<int64_t>());
+		e.set_metric(vm["metric-sint64"].as<int64_t>());
 	}
 	if (vm.count("metric-dbl")) {
-		event.set_metric(vm["metric-dbl"].as<double>());
+		e.set_metric(vm["metric-dbl"].as<double>());
 	}
 	if (vm.count("metric-flt")) {
-		event.set_metric(vm["metric-flt"].as<float>());
+		e.set_metric(vm["metric-flt"].as<float>());
 	}
 	if (vm.count("ttl")) {
-		event.set_ttl(vm["ttl"].as<float>());
+		e.set_ttl(vm["ttl"].as<float>());
 	}
-	client << event;
+
+	rpp::client client(type, vm["rhost"].as<string>(), vm["rport"].as<int>());
+	client << std::move(e);
 
 	std::unique_ptr<rpp::message> response;
 	client >> response;
@@ -136,8 +138,6 @@ process_command_send(const bpo::variables_map& vm) {
 		cerr << "Error when asking for a message receipt: " << strerror(errno) << endl;
 	} else if (!response->get_ok()) {
 		cerr << "Message receipt failed: " << response->get_error() << endl;
-	} else {
-		cout << *response;
 	}
 }
 
@@ -150,7 +150,7 @@ process_command_query(const bpo::variables_map& vm) {
 	if (vm.count("query")) {
 		query.set_string(vm["query"].as<string>());
 	}
-	client.send_oneshot(query);
+	client.send_oneshot(std::move(query));
 
 #if HAVE_JSON
 	if (vm.count("json")) {
@@ -165,10 +165,7 @@ process_command_query(const bpo::variables_map& vm) {
 	} else if (!response->get_ok()) {
 		cerr << "Message receipt failed: " << response->get_error() << endl;
 	} else {
-		cout << response->to_str();
-
-		riemann_message_t* m = response->release();
-		riemann_message_free(m);
+		cout << *response;
 	}
 }
 
