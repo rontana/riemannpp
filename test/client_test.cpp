@@ -32,27 +32,37 @@ TEST_CASE("clients can be created and connect", "[client]") {
 		REQUIRE((riemann_client_t*)client != nullptr);
 	}
 	SECTION("move constructor") {
-
+		riemann::client client1;
+		riemann::client client2(std::move(client1));
+		REQUIRE((riemann_client_t*)client1 == nullptr);
+		REQUIRE((riemann_client_t*)client2 != nullptr);
 	}
 	SECTION("construct with parameters") {
-		
+		riemann::client client(riemann::client_type::tcp, "localhost", 5555);
+		REQUIRE((riemann_client_t*)client != nullptr);
 	}
 	SECTION("move assignment operator") {
-
+		riemann::client client1;
+		riemann::client client2 = std::move(client1);
+		REQUIRE((riemann_client_t*)client1 == nullptr);
+		REQUIRE((riemann_client_t*)client2 != nullptr);
 	}
 	SECTION("connect and disconnect") {
-
+		riemann::client client;
+		client.connect(riemann::client_type::tcp, "localhost", 5555);
+		client.disconnect();
+		REQUIRE((riemann_client_t*)client != nullptr);
 	}
 	SECTION("send message") {
-
+		riemann::client client(riemann::client_type::tcp, "localhost", 5555);
+		riemann::message m;
+		client.send(std::move(m));
+		REQUIRE((riemann_message_t*)m == nullptr);
 	}
 	SECTION("stream operator send message") {
-
-	}
-	SECTION("receive message") {
-
-	}
-	SECTION("stream operator receive message") {
-
+		riemann::client client(riemann::client_type::tcp, "localhost", 5555);
+		riemann::message m;
+		client << std::move(m);
+		REQUIRE((riemann_message_t*)m == nullptr);
 	}
 }
