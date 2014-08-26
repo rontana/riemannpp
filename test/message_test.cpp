@@ -38,13 +38,14 @@ TEST_CASE("messages can be created and set", "[message]") {
 		REQUIRE((riemann_message_t*)msg2 != nullptr);
 	}
 	SECTION("construct with event") {
-//		riemann::event e;
-//		riemann::message msg(e);
-//		REQUIRE((riemann_message_t*)msg != nullptr);
+		riemann::event e;
+		riemann::message msg(std::move(e));
+		REQUIRE((riemann_event_t*)e == nullptr);
+		REQUIRE((riemann_message_t*)msg != nullptr);
 	}
 	SECTION("construct with query") {
 		riemann::query q("*");
-		riemann::message msg(q);
+		riemann::message msg(std::move(q));
 		REQUIRE((riemann_message_t*)msg != nullptr);
 	}
 	SECTION("move assignment operator") {
@@ -54,14 +55,14 @@ TEST_CASE("messages can be created and set", "[message]") {
 		REQUIRE((riemann_message_t*)msg2 != nullptr);
 	}
 	SECTION("set event") {
-//		riemann::event e;
-//		riemann::message msg;
-//		msg.set_event(e);
+		riemann::event e;
+		riemann::message msg;
+		msg.set_event(e);
 	}
 	SECTION("stream operator set event") {
-//		riemann::event e();
-//		riemann::message msg;
-//		msg << e;
+		riemann::event e;
+		riemann::message msg;
+		msg << e;
 	}
 	SECTION("set query") {
 		riemann::query q("*");

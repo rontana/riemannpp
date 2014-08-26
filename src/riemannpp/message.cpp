@@ -40,7 +40,7 @@ message::message(message&& m) {
 }
 
 message::message(event&& e)
-	: d_message(riemann_message_create_with_events(e.release()))
+	: d_message(riemann_message_create_with_events(e.release(), nullptr))
 {}
 
 message::message(query&& q)
@@ -61,8 +61,7 @@ message::operator=(message&& m) {
 
 void
 message::set_event(event& e) {
-	riemann_event_t* evp = e.release();
-	int result = riemann_message_set_events_n(d_message.get(), 1, &evp);
+	int result = riemann_message_set_events(d_message.get(), e.release(), nullptr);
 	if (0 != result) {
 		throw internal_exception();
 	}
