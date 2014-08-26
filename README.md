@@ -18,7 +18,7 @@ Features:
 
 If you're a developer, Riemann uses [Google Protocol Buffers](http://code.google.com/p/protobuf/), so make sure that's installed and available on your system path.
 
-The library uses autotools along with a dependency on the [Riemann C client library](https://github.com/algernon/riemann-c-client). First install that library (instructions in README.md), then continue with the following commands to build and install riemannpp:
+The library uses autotools along with a dependency on the [Riemann C client library](https://github.com/algernon/riemann-c-client). The client also uses [boost](http://www.boost.org). First install Riemann-C-Client (instructions in README.md) and boost, then continue with the following commands to build and install riemannpp:
 
 ```bash
 $ git clone git://github.com/bigdatadev/riemannpp.git
