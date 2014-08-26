@@ -46,6 +46,7 @@ TEST_CASE("messages can be created and set", "[message]") {
 	SECTION("construct with query") {
 		riemann::query q("*");
 		riemann::message msg(std::move(q));
+		REQUIRE((riemann_query_t*)q == nullptr);
 		REQUIRE((riemann_message_t*)msg != nullptr);
 	}
 	SECTION("move assignment operator") {
